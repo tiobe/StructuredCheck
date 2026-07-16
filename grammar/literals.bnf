@@ -58,10 +58,10 @@ time_literal -> date
 date -> /D(ATE)?#/ date_information
       ;
 
-duration -> /T(IME)?#/ (decimal_representation | sequence_representation '_'? decimal_representation?)
+duration -> /T(IME)?#/ (decimal_representation | sequence_representation decimal_representation?)
 	  ;
 
-time_of_day -> /(TIME_OF_DAY|TOD)#/ time_of_day_information
+time_of_day -> /(TIME_OF_DAY|TOD)#/ time_of_day_information	     
 	     ;
 
 date_and_time -> /(DATE_AND_TIME|DT)#/ date_information '-' time_of_day_information
@@ -95,7 +95,7 @@ _minutes -> /[0-5]?[0-9]/ 'm' '_'?
 _seconds -> /[0-5]?[0-9]/ 's' '_'?
 	  ;
 
-_milliseconds -> /[0-9][0-9]?[0-9]?/ 'ms'
+_milliseconds -> /[0-9][0-9]?[0-9]?/ 'ms' '_'?
 	       ;
 
 # the entry to decimal representation is only possible for time units that are not yet defined
@@ -104,9 +104,9 @@ decimal_representation -> decimal_digit_string '.' decimal_representation? ('d'|
 
 character_string -> 'STRING#'? "'" characters* "'"
 		  ;
-characters ->  /$[0-9A-F][0-9A-F]/
-	    | /[\x20-\x23\x25\x26\x28-\x7E\x80-\xFF]/	    
-	    | /$['$LINnPpRrTt]/
+characters ->  /\$[0-9A-F][0-9A-F]/
+	    | /[\x20-\x23\x25\x26\x28-\x7E\x80-\xFF]/
+	    | /\$['$LINnPpRrTt]/
 	    ;
 
 _exponent -> ('E'|'e') ('+'|'-')? decimal_digit_string

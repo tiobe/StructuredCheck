@@ -1,0 +1,161 @@
+==================
+Decimal integer
+==================
+
+42
+
+---
+
+(literal
+  (integer
+    (decimal_digit_string)))
+
+==================
+Typed negative decimal integer
+==================
+
+INT#-42
+
+---
+
+(literal
+  (integer
+    (integer_datatype)
+    (decimal_digit_string)))
+
+==================
+Binary integer with separators
+==================
+
+2#1010_0110
+
+---
+
+(literal
+  (integer
+    (binary_digit_string)))
+
+==================
+Hexadecimal integer with separators
+==================
+
+16#FF_00
+
+---
+
+(literal
+  (integer
+    (hex_digit_string)))
+
+==================
+Floating point number with exponent
+==================
+
+3.14e5
+
+---
+
+(literal
+  (floating_pointer_number
+    (decimal_digit_string)
+    (decimal_digit_string)
+    (decimal_digit_string)))
+
+==================
+Typed negative floating point number
+==================
+
+REAL#-1.0E-2
+
+---
+
+(literal
+  (floating_pointer_number
+    (float_datatype)
+    (decimal_digit_string)
+    (decimal_digit_string)
+    (decimal_digit_string)))
+
+==================
+Duration in days
+==================
+
+T#5d
+
+---
+
+(literal
+  (time_literal
+    (duration
+      (sequence_representation
+        (decimal_digit_string)))))
+
+==================
+Date
+==================
+
+D#2024-01-15
+
+---
+
+(literal
+  (time_literal
+    (date
+      (date_information))))
+
+==================
+Time of day
+==================
+
+TOD#12:30:00.5
+
+---
+
+(literal
+  (time_literal
+    (time_of_day
+      (time_of_day_information))))
+
+==================
+Date and time
+==================
+
+DT#2024-01-15-12:30:00
+
+---
+
+(literal
+  (time_literal
+    (date_and_time
+      (date_information)
+      (time_of_day_information))))
+
+==================
+Character string with escape
+==================
+
+'hello $N'
+
+---
+
+(literal
+  (character_string
+    (characters)
+    (characters)
+    (characters)
+    (characters)
+    (characters)
+    (characters)
+    (characters)))
+
+==================
+Typed character string
+==================
+
+STRING#'a'
+
+---
+
+(literal
+  (character_string
+    (characters)))
