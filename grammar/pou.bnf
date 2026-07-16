@@ -1,0 +1,17 @@
+
+expression -> 'EXPRESSION' identifier expr_decl_section? stmt_section 'END_EXPRESSION'
+	    ;
+
+	    
+function -> 'FUNCTION' identifier ':' ('VOID' | datatype) fc_declaration_section? stmt_section 'END_FUNCTION'
+	  ;
+
+	  
+function_block -> 'FUNCTION_BLOCK' identifier fb_declaration_section? stmt_section 'END_FUNCTION_BLOCK'
+		;
+
+		
+program -> 'PROGRAM' identifier program_declaration_section? stmt_section 'END_PROGRAM'
+	 ;
+
+	 

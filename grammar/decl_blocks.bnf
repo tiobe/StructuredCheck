@@ -1,0 +1,24 @@
+
+constant -> 'VAR_CONSTANT' constant_decl+ 'END_VAR'
+	  ;	  
+
+global_constant -> 'VAR_GLOBAL_CONSTANT' constant_decl+ 'END_VAR'
+		 ;
+		 
+global_var -> 'VAR_GLOBAL' (variable_decl | symbolic_pi_access | instance_decl)+ 'END_VAR'
+	    ;
+	    
+global_retain -> 'VAR_GLOBAL_RETAIN' variable_decl+ 'END_VAR'
+	       ;
+
+fc_temp_var -> 'VAR' variable_decl+ 'END_VAR'
+	     ;
+
+fb_temp_var -> 'VAR_TEMP' variable_decl+ 'END_VAR'
+	     ;	     
+
+static_var -> 'VAR' (variable_decl | symbolic_pi_access | instance_decl)+ 'END_VAR'
+	    ;
+
+	    
+	     

@@ -1,0 +1,74 @@
+
+
+datatype -> elementary_datatype
+	   | udt_identifier
+	   | system_datatype
+	   | to_datatype
+	   ;
+
+elementary_datatype -> bit_datatype
+		     | numeric_datatype
+		     | time_type
+		     | string_datatype
+		     ;
+
+bit_datatype -> 'BOOL'
+	      | 'BYTE'
+	      | 'WORD'
+	      | 'DWORD'
+	      ;
+
+numeric_datatype -> integer_datatype
+		  | float_datatype
+		  ;
+
+integer_datatype -> /U?[DS]?INT/
+		  ;
+
+float_datatype -> /L?REAL/
+		;
+
+time_type -> /TIME(_OF_DAY)?/
+	   | /DATE(_AND_TYPE)?/
+	   | 'TOD'
+	   | 'DT'
+	   ;
+
+
+string_datatype -> 'STRING' ('[' constant_expression ']')?
+		 ;
+
+udt_identifier -> 'TYPE' _udt_type+ 'END_TYPE'
+		;
+
+_udt_type -> identifier ':' (_dt_with_init | struct_datatype) ';'
+	   ;
+
+_dt_with_init -> (datatype | array_datatype | enum_datatype) (':=' initialization)?
+	       ;	   
+		 
+
+array_datatype -> 'ARRAY' '[' constant_expression '..' constant_expression ']' 'OF' datatype
+		;
+
+		
+enum_datatype -> '(' identifier (',' identifier)* ')'
+	       ;
+
+struct_datatype -> 'STRUCT' component_decl+ 'END_STRUCT'
+		 | 'STRUCT' 'OVERLAP'? component_decl_rel_address+ 'END_STRUCT'
+		 ;
+
+component_decl -> identifier ':' _component_type ';'
+		;
+
+component_decl_rel_address -> identifier 'AT' relative_address ':' _component_type ';'
+			    ;
+
+_component_type -> (datatype | array_datatype) (':=' initialization)?
+		 ;			    
+
+relative_address -> '%B' /[0-9]+/
+		  ;
+
+		  

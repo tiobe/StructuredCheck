@@ -1,28 +1,13 @@
 
 %axiom literal
 
-## Data types:
+%include "data_types.bnf"
 
-bit_datatype -> 'BOOL'
-	      | 'BYTE'
-	      | 'WORD'
-	      | 'DWORD'
-	      ;
+identifier -> /([A-Za-z]|_[A-Za-z0-9])(_?[A-Za-z0-9])/
+ 	    ;
 
-integer_datatype -> /U?[DS]?INT/
-		  ;
-
-float_datatype -> /L?REAL/
-		;
-
-## Literals
-
-# identifier -> /([A-Za-z]|_[A-Za-z0-9])(_?[A-Za-z0-9])/
-# 	    ;
-
-#number -> /[0-9]+/
-#	;
-
+number -> /[0-9]+/
+	;
 	
 literal -> integer
 	 | floating_pointer_number

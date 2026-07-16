@@ -1,0 +1,16 @@
+
+%extras line_comment, block_comment, /\s/
+
+line_comment -> /\/\/.*/
+	      ;
+
+# FIXME: Need to confirm greedyness
+block_comment -> /\(\*/ characters* /\*\)/
+	       ;	       
+
+%include 'control.bnf'
+%include 'literals.bnf'
+%include 'pou.bnf'
+%include 'decl_blocks.bnf'
+%include 'data_types.bnf'
+%include 'stmt_section.bnf'
