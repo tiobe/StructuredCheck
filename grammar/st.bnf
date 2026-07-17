@@ -1,16 +1,151 @@
 
-%extras line_comment, block_comment, /\s/
+%include "literals.bnf"
+%include "pou.bnf"
+%include "sfc.bnf"
+%include "configuration.bnf"
 
-line_comment -> /\/\/.*/
+# B.0 Programming Model
+
+library_element_declaration -> data_type_declaration
+			     | function_declaration
+			     | function_block_declaration
+			     | program_declaration
+			     | configuration_declaration
+			     ;
+
+# B.3.1 Expressions
+
+expression -> xor_expression ('OR' xor_expression)*
+	    ;
+
+xor_expression -> and_expression ('XOR' and_expression)*
+		;
+
+and_expression -> comparison (('&'|'AND') comparison)*
+		;
+
+comparison -> equ_expression (('='|'<>') equ_expression)*
+	    ;
+
+
+equ_expression -> add_expression (comparison_operator add_expression)*
+		;
+
+comparison_operator -> '<' | '>' | '<=' | '>='
+		     ;
+
+add_expression -> term (add_operator term)*
+		;
+
+add_operator -> '+' | '-'
 	      ;
 
-# FIXME: Need to confirm greedyness
-block_comment -> /\(\*/ characters* /\*\)/
-	       ;	       
+term -> power_expression (multiply_operator power_expression)*
+      ;
 
-%include 'control.bnf'
-%include 'literals.bnf'
-%include 'pou.bnf'
-%include 'decl_blocks.bnf'
-%include 'data_types.bnf'
-%include 'stmt_section.bnf'
+multiply_operator -> '*' | '/' | 'MOD'
+		   ;
+
+power_expression -> unary_expression ('**' unary_expression)*
+		  ;
+
+unary_expression -> unary_operator? primary_expression
+		  ;
+
+unary_operator -> '-' | 'NOT'
+		;
+
+primary_expression -> constant
+		    | enumerated_value
+		    | variable
+		    | '(' expression ')'
+		    | function_name '(' param_assignment (',' param_assignment)* ')'
+		    ;
+
+
+# B3.2 Statements
+
+statement_list -> (statement? ';')+
+		;
+
+statement -> assignment_statement
+	   | subprogram_control_statement
+	   | selection_statement
+	   | iteration_statement
+	   ;
+
+# B.3.2.1 Assignment Statements
+
+assignment_statement -> variable ':=' expression
+		      ;
+
+
+# B.3.2.2 Subprogram control statements
+
+subprogram_control_statement -> fb_invocation
+			      | 'RETURN'
+			      ;
+
+fb_invocation -> fb_name '(' (param_assignment (',' param_assignment)*)? ')'
+	       ;
+
+param_assignment -> (variable_name ':=')? expression
+		  | 'NOT'? variable_name '=>' variable
+		  ;
+
+# B.3.2.3 Selection Statements
+
+selection_statement -> if_statement
+		     | case_statement
+		     ;
+
+if_statement -> 'IF' expression 'THEN' statement_list _elsif* _else? 'END_IF'
+	      ;
+
+
+_elsif -> 'ELSIF' expression 'THEN' statement_list
+	;
+
+_else -> 'ELSE' statement_list
+       ;
+
+case_statement -> 'CASE' expression 'OF' case_element+ _else? 'END_CASE'
+		;
+
+case_element -> case_list ':' statement_list
+	      ;
+
+
+case_list -> case_list_element (',' case_list_element)*
+	   ;
+
+case_list_element -> subrange
+		   | signed_integer
+		   | enumerated_value
+		   ;
+
+# B.3.2.4 Iteration Statements
+
+iteration_statement -> for_statement
+		     | while_statement
+		     | repeat_statement
+		     | exit_statement
+		     ;
+
+for_statement -> 'FOR' control_variable ':=' for_list 'DO' statement_list 'END_FOR'
+	       ;
+
+control_variable -> identifier
+		  ;
+
+for_list -> expression 'TO' expression ('BY' expression)?
+	  ;
+
+while_statement -> 'WHILE' expression 'DO' statement_list 'END_WHILE'
+		 ;
+
+repeat_statement -> 'REPEAT' statement_list 'UNTIL' expression 'END_REPEAT'
+		  ;
+
+exit_statement -> 'EXIT'
+		;

@@ -1,102 +1,175 @@
 
-%axiom literal
+%include 'data_types.bnf'
 
-%include "data_types.bnf"
+# B.1.1 Identifiers
 
-identifier -> /([A-Za-z]|_[A-Za-z0-9])(_?[A-Za-z0-9])/
- 	    ;
-
-number -> /[0-9]+/
-	;
-	
-literal -> integer
-	 | floating_pointer_number
-	 | time_literal
-	 | character_string
-	 ;
-
-# FIXME: Note that - is only valid for some datatypes. Validate through grammar or semantic?
-integer -> _datatype? ( ('+'|'-')? decimal_digit_string | binary_digit_string | octal_digit_string | hex_digit_string)
-	 ;
-
-decimal_digit_string -> /[0-9]+(_[0-9]+)*/
-		      ;
-
-binary_digit_string -> '2#' /[01]+(_[01]+)*/
-		     ;
-
-octal_digit_string -> '8#' /[0-7]+(_[0-7]+)*/
-		    ;
-
-hex_digit_string -> '16#' /[0-9A-F]+(_[0-9A-F]+)*/
-		  ;
-
-floating_pointer_number -> (float_datatype '#')? ('+'|'-')? decimal_digit_string ('.' decimal_digit_string) _exponent
-			 ;
-
-time_literal -> date
-	      | time_of_day
-	      | date_and_time
-	      | duration
-	      ;
-
-date -> /D(ATE)?#/ date_information
-      ;
-
-duration -> /T(IME)?#/ (decimal_representation | sequence_representation decimal_representation?)
-	  ;
-
-time_of_day -> /(TIME_OF_DAY|TOD)#/ time_of_day_information	     
-	     ;
-
-date_and_time -> /(DATE_AND_TIME|DT)#/ date_information '-' time_of_day_information
-	       ;
-
-# FIXME: We might want to limit 0001 to 2300; 01 to 12 and 01 to 31 -- Or create then rules for that
-date_information -> /[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
-		  ;
-
-# FIXME: is the two chars required or can one use only one?  4:3:5.3 is valid!?
-time_of_day_information -> /([0-9]|1[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9](\.[0-9][0-9]?[0-9]?)?/
-			 ;
-
-# FIXME: at least one is required
-sequence_representation -> _days _hours? _minutes? _seconds? _milliseconds?
-			 | _hours _minutes? _seconds? _milliseconds?
-			 | _minutes _seconds? _milliseconds?
-			 | _seconds _milliseconds?
-			 | _milliseconds			 
-			 ;
-
-_days -> decimal_digit_string 'd' '_'?
-       ;
-
-_hours -> /[01]?[0-9]|2[0-3]/ 'h' '_'?
-	;
-
-_minutes -> /[0-5]?[0-9]/ 'm' '_'?
-	  ;
-
-_seconds -> /[0-5]?[0-9]/ 's' '_'?
-	  ;
-
-_milliseconds -> /[0-9][0-9]?[0-9]?/ 'ms' '_'?
-	       ;
-
-# the entry to decimal representation is only possible for time units that are not yet defined
-decimal_representation -> decimal_digit_string '.' decimal_representation? ('d'|'h'|'m'|'s'|'ms')
-			;
-
-character_string -> 'STRING#'? "'" characters* "'"
-		  ;
-characters ->  /\$[0-9A-F][0-9A-F]/
-	    | /[\x20-\x23\x25\x26\x28-\x7E\x80-\xFF]/
-	    | /\$['$LINnPpRrTt]/
+identifier -> /([A-Za-z]|_[A-Za-z0-9])(_?[A-Za-z0-9])*/
 	    ;
 
-_exponent -> ('E'|'e') ('+'|'-')? decimal_digit_string
-	   ;
+# B.1.2 Constants
 
-_datatype -> (bit_datatype | integer_datatype) '#'
-	   ;	 
+constant -> numeric_literal
+	  | character_string
+	  | time_literal
+	  | bit_string_literal
+	  | boolean_literal
+	  ;
 
+# B.1.2.1 Numeric literals
+
+	 
+numeric_literal -> integer_literal
+		 | real_literal
+		 ;
+
+integer_literal -> (integer_type_name '#')? _integer_literal
+		 ;
+
+_integer_literal -> signed_integer
+		  | binary_integer
+		  | octal_integer
+		  | hex_integer
+		  ;
+
+signed_integer -> ('+'|'-')? integer
+		;
+
+integer -> /[0-9](_?[0-9])*/
+	 ;
+
+binary_integer -> '2#' /[01](_?[01])*/
+		;
+
+octal_integer -> '8#' /[0-7](_?[0-7])*/
+	       ;
+
+hex_integer -> '16#' /[0-9A-F](_?[0-9A-F])*/
+	     ;
+
+# FIXME: If spaces are possible around exponents, for instance, we need to check the regex
+real_literal -> (real_type_name '#')? ('+'|'-')? /[0-9](_?[0-9])*\.[0-9](_?[0-9])*([Ee][+-]?[0-9](_?[0-9])*)?/
+	      ;
+
+bit_string_literal -> ( 'BYTE' | /[DL]?WORD/ )? _unsigned_integer_literal
+		    ;
+
+_unsigned_integer_literal -> integer
+			   | binary_integer
+			   | octal_integer
+			   | hex_integer
+			   ;
+
+boolean_literal -> 'BOOL#'? /[10]/ | 'TRUE' | 'FALSE'
+		 ;
+
+		 
+# B.1.2.2 Character Strings
+
+character_string -> single_byte_character_string
+		  | double_byte_character_string
+		  ;
+
+single_byte_character_string -> "'" single_byte_character_representation* "'"
+			      ;
+
+double_byte_character_string -> "'" double_byte_character_representation* "'"
+			      ;
+
+single_byte_character_representation -> common_character_representation
+				      | "$'"
+				      | '"'
+				      | /\$[0-9A-F][0-9A-F]/
+				      ;
+
+double_byte_character_representation -> common_character_representation
+				      | "$'"
+				      | '"'
+				      | /\$[0-9A-F][0-9A-F][0-9A-F][0-9A-F]/
+				      ;
+
+common_character_representation -> _printable_character
+				 | /\$[$LNPRTlnprt]/
+				 ;
+
+# any printable character except '$', '"' or "'"
+_printable_character -> /[\x20-\x23\x25\x26\x28-\x7E\x80-\xFF]/
+		      ;
+		      
+
+# B.1.2.3 Time Literals
+
+time_literal -> duration
+	      | time_of_day
+	      | date
+	      | date_and_time
+	      ;
+
+# B.1.2.3.1 Duration
+
+duration -> /T(IME)?/ '#' '-'? interval
+	  ;
+
+interval -> days
+	  | hours
+	  | minutes
+	  | seconds
+	  | milliseconds
+	  ;
+
+days -> fixed_point 'd' | integer 'd' '_'? hours
+      ;
+
+fixed_point -> /[0-9]+(\.[0-9]+)?/
+	     ;
+
+hours -> fixed_point 'h' | integer 'h' '_'? minutes
+       ;
+
+minutes -> fixed_point 'm' | integer 'm' '_'? seconds
+	 ;
+
+seconds -> fixed_point 's' | integer 's' '_'? milliseconds
+	 ;
+
+milliseconds -> fixed_point 'ms'
+	      ;
+
+	      
+# B.1.2.3.2 Time of day and date
+
+time_of_day -> ('TIME_OF_DAY' | 'TOD') '#' daytime
+	     ;
+
+daytime -> day_hour ':' day_minute ':' day_second
+	 ;
+
+# FIXME: should we make regex to validate ranges?
+day_hour -> integer
+	  ;
+
+day_minute -> integer
+	    ;
+
+day_second -> fixed_point
+	    ;
+
+
+date -> /D(ATE)?/ '#' date_literal
+      ;
+
+date_literal -> year '-' month '-' day
+	      ;
+
+year -> integer
+      ;
+
+month -> integer
+       ;
+
+day -> integer
+     ;
+
+date_and_time -> ('DATE_AND_TIME' | 'DT') '#' date_literal '-' daytime
+	       ;
+
+	       

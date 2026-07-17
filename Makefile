@@ -1,4 +1,4 @@
-GRAMMAR_NAME := literals
+GRAMMAR_NAME := st
 GRAMMAR_SRC  := grammar/$(GRAMMAR_NAME).bnf
 BUILD_DIR    := build/tree-sitter-$(GRAMMAR_NAME)
 TESTS_DIR    := tests

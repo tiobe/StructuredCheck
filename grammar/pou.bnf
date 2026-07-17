@@ -1,17 +1,104 @@
 
-expression -> 'EXPRESSION' identifier expr_decl_section? stmt_section 'END_EXPRESSION'
-	    ;
+%include 'variables.bnf'
 
-	    
-function -> 'FUNCTION' identifier ':' ('VOID' | datatype) fc_declaration_section? stmt_section 'END_FUNCTION'
-	  ;
+# B.1.5 Program organization units
 
-	  
-function_block -> 'FUNCTION_BLOCK' identifier fb_declaration_section? stmt_section 'END_FUNCTION_BLOCK'
+# B.1.5.1 Functions
+
+function_name -> standard_function_name
+	       | derived_function_name
+	       ;
+
+# FIXME: Complete standard function names from 2.5.1.5
+standard_function_name -> 'FIXME'
+			;
+
+derived_function_name -> identifier
+		       ;
+
+function_declaration -> 'FUNCTION' derived_function_name ':' _function_type_name? _function_decls function_body 'END_FUNCTION'
+		      ;
+
+_function_type_name -> elementary_type_name
+		     | derived_type_name
+		     ;
+
+_function_decls -> io_var_declarations
+		 | function_var_decls
+		 ;
+
+io_var_declarations -> input_declarations
+		     | output_declarations
+		     | input_output_declarations
+		     ;
+
+function_var_decls -> 'VAR' 'CONSTANT'? (var2_init_decl ';')+ 'END_VAR'
+		    ;
+
+# FIXME: Confirm we can simplify this way
+function_body -> sequential_function_chart | statement_list
+	       ;
+
+
+var2_init_decl -> var1_init_decl
+		| array_var_init_decl
+		| structured_var_init_decl
+		| string_var_declaration
 		;
 
-		
-program -> 'PROGRAM' identifier program_declaration_section? stmt_section 'END_PROGRAM'
-	 ;
+# FIXME: NOTE 1 This syntax does not reflect the fact that each function must have at least one input declaration.
 
-	 
+# FIXME: NOTE 2 This syntax does not reflect the fact that edge declarations, function block references and invocations are not allowed in function bodies
+
+# B.1.5.2 Function blocks
+
+function_block_type_name -> standard_function_block_name
+			  | derived_function_block_name
+			  ;
+
+standard_function_block_name -> 'FIXME' # as defined in 2.5.2.3
+			      ;
+
+derived_function_block_name -> identifier
+			     ;
+
+function_block_declaration -> 'FUNCTION_BLOCK' derived_function_block_name _function_decls? function_block_body 'END_FUNCTION_BLOCK'
+			    ;
+
+other_var_declarations -> external_var_declarations
+			| var_declarations
+			| retentive_var_declarations
+			| non_retentive_var_declarations
+			| temp_var_decls
+			| incompl_located_var_declarations
+			;
+
+temp_var_decls -> 'VAR_TEMP' (temp_var_decl ';')+ 'END_VAR'
+		;
+
+non_retentive_var_declarations -> 'VAR' 'NON_RETAIN' (var_init_decl ';')+ 'END_VAR'
+			        ;
+
+function_block_body -> sequential_function_chart | statement_list
+		     ;
+
+# B.1.5.3 Programs
+
+program_type_name -> identifier
+		   ;
+
+program_declaration -> 'PROGRAM' program_type_name _program_decls function_block_body 'END_PROGRAM'
+		     ;
+
+_program_decls -> io_var_declarations
+		| other_var_declarations
+		| located_var_declarations
+		| program_access_decls
+		;
+
+program_access_decls -> 'VAR_ACCESS' program_access_decl ';' (program_access_decl ';')* 'END_VAR'
+		      ;
+
+program_access_decl -> access_name ':' symbolic_variable ':' non_generic_type_name direction?
+                     ;
+

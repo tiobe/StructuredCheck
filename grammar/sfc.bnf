@@ -1,0 +1,66 @@
+
+%include "pou.bnf"
+
+# B.1.6 Sequential function chart elements
+
+sequential_function_chart -> sfc_network+
+			   ;
+
+sfc_network -> initial_step (step | transition | action)*
+	     ;
+
+initial_step -> 'INITIAL_STEP' step_name ':' (action_association ';')* 'END_STEP'
+	      ;
+
+step -> 'STEP' step_name ':' (action_association ';')* 'END_STEP'
+      ;
+
+step_name -> identifier;
+
+# FIXME: this would allow a comma right after the parenthesis, what seems wrong - to confirm
+action_association -> action_name '(' action_qualifier? (',' indicator_name)* ')'
+		    ;
+
+action_name -> identifier
+	     ;
+
+action_qualifier -> /{NRSP]/
+		  | timed_qualifier ',' action_time
+		  ;
+
+timed_qualifier -> 'L' | 'D' | 'SD' | 'DS' | 'SL'
+		 ;
+
+action_time -> duration
+	     | variable_name
+	     ;
+
+indicator_name -> variable_name
+		;
+
+transition -> 'TRANSITION' transition_name? _priority? 'FROM' steps 'TO' steps transition_condition 'END_TRANSITION'
+	    ;
+
+
+_priority -> '(' 'PRIORITY' ':=' integer ')'
+	   ;
+
+transition_name -> identifier
+		 ;
+
+steps -> step_name
+       | '(' step_name (',' step_name)+ ')'
+       ;
+
+transition_condition -> 
+# FIXME: this one's for IL
+# ':' simple_instruction_list
+		      ':=' expression ';'
+# FIXME: I suppose this is only for ladder diagrams and function block diagrams
+# | ':' (fbd_network | rung)
+		      ;
+
+action -> 'ACTION' action_name ':' function_block_body 'END_ACTION'
+	;
+
+# NOTE 1 The non-terminals simple_instruction_list and expression are defined in B.2.1 and B.3.1, respectively.
