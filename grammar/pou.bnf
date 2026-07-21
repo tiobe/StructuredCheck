@@ -19,8 +19,15 @@ derived_function_name -> identifier
 function_declaration -> 'FUNCTION' derived_function_name ':' _function_type_name? _function_decls function_body 'END_FUNCTION'
 		      ;
 
+# NOTE: deviates from the IEC grammar, where the derived case here is
+# `derived_type_name`. That rule aliases a bare identifier six different ways
+# (simple/subrange/enumerated/array/structure/string type name) with nothing
+# to tell them apart syntactically - which kind it is can only be known once
+# it's looked up in a symbol table, i.e. semantics/context, not this CFG. We
+# use the plain, unaliased `type_name` instead, same as `type_name_reference`
+# does for the analogous "identifier refers to some other declared type" case.
 _function_type_name -> elementary_type_name
-		     | derived_type_name
+		     | type_name
 		     ;
 
 _function_decls -> io_var_declarations

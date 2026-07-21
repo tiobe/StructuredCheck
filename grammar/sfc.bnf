@@ -24,7 +24,7 @@ action_association -> action_name '(' action_qualifier? (',' indicator_name)* ')
 action_name -> identifier
 	     ;
 
-action_qualifier -> /{NRSP]/
+action_qualifier -> /[NRSP]/
 		  | timed_qualifier ',' action_time
 		  ;
 

@@ -4,6 +4,19 @@
 %include "sfc.bnf"
 %include "configuration.bnf"
 
+# param_assignment's `'NOT'? variable_name '=>' variable` (negate an FB's
+# output parameter on the way out) and unary_operator's `'NOT' primary_expression`
+# (boolean negation in an expression) both start with 'NOT' identifier, and
+# there's no precedence that makes one "win" over the other in general -
+# whether a given `NOT x` belongs to the output form is only known once '=>'
+# does or doesn't turn up right after. This is genuinely ambiguous locally,
+# not something restructuring the grammar can remove, so we hand it to GLR.
+# Tree-sitter's default conflict heuristic (prefer the longer/shift parse)
+# gives the right answer: it tries the `'=>' variable` continuation first and
+# falls back to a plain boolean-negation expression when '=>' isn't there.
+# Verified against `NOT ENO => flag`, `x := NOT ENO`, and bare `NOT ENO`.
+%conflicts [param_assignment, unary_operator]
+
 # B.0 Programming Model
 
 library_element_declaration -> data_type_declaration
@@ -86,7 +99,7 @@ subprogram_control_statement -> fb_invocation
 			      | 'RETURN'
 			      ;
 
-fb_invocation -> fb_name '(' (param_assignment (',' param_assignment)*)? ')'
+fb_invocation -> (identifier => fb_name) '(' (param_assignment (',' param_assignment)*)? ')'
 	       ;
 
 param_assignment -> (variable_name ':=')? expression

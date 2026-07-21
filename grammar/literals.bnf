@@ -31,7 +31,15 @@ _integer_literal -> signed_integer
 		  | hex_integer
 		  ;
 
-signed_integer -> ('+'|'-')? integer
+# NOTE: the sign is folded into the regex (rather than `('+'|'-')? integer`)
+# so this is a single token. As two grammar symbols, the leading '-' would be
+# the same terminal `unary_operator` uses, and at a position like `IF -5`
+# the parser can't tell which production is consuming it - a genuine
+# parser-level ambiguity. As one token, tree-sitter's lexer resolves it by
+# longest match: `-5` (2 chars) wins over the lone `-` (1 char) wherever both
+# are valid, so `unary_operator` only ever sees a bare sign when no digits
+# immediately follow it.
+signed_integer -> /[+-]?[0-9](_?[0-9])*/
 		;
 
 integer -> /[0-9](_?[0-9])*/
@@ -47,10 +55,18 @@ hex_integer -> '16#' /[0-9A-F](_?[0-9A-F])*/
 	     ;
 
 # FIXME: If spaces are possible around exponents, for instance, we need to check the regex
-real_literal -> (real_type_name '#')? ('+'|'-')? /[0-9](_?[0-9])*\.[0-9](_?[0-9])*([Ee][+-]?[0-9](_?[0-9])*)?/
+# NOTE: sign folded into the regex, same reasoning as `signed_integer` above.
+real_literal -> (real_type_name '#')? /[+-]?[0-9](_?[0-9])*\.[0-9](_?[0-9])*([Ee][+-]?[0-9](_?[0-9])*)?/
 	      ;
 
-bit_string_literal -> ( 'BYTE' | /[DL]?WORD/ )? _unsigned_integer_literal
+# NOTE: deviates from the IEC grammar, where the type prefix here is optional.
+# With it optional, an unprefixed integer is ambiguous between this rule and
+# signed_integer (both reduce a bare `integer` with nothing else), which the
+# IEC text only disambiguates via the semantics/context of the assignment
+# target - something this CFG can't express. We require the prefix so the
+# grammar stays unambiguous; recovering untagged bit-string literals, if
+# needed, has to happen in a later semantic/type-checking pass.
+bit_string_literal -> ('BYTE' | /[DL]?WORD/) '#' _unsigned_integer_literal
 		    ;
 
 _unsigned_integer_literal -> integer
@@ -65,9 +81,26 @@ boolean_literal -> 'BOOL#'? /[10]/ | 'TRUE' | 'FALSE'
 		 
 # B.1.2.2 Character Strings
 
-character_string -> single_byte_character_string
-		  | double_byte_character_string
+# NOTE: deviates from the IEC grammar, which offers `character_string` here as
+# a choice between single_byte_character_string and double_byte_character_string
+# - both delimited the same way, with mostly-overlapping representation sets.
+# Even the escapes are ambiguous on their own: `$AAAA` is either one 4-digit
+# escape, or a 2-digit escape `$AA` followed by two literal characters 'A','A'
+# - so no amount of scanning tells single-byte from double-byte here. Which
+# one it is only becomes knowable once the target's declared type (STRING vs
+# WSTRING) is known - semantics/context, not this CFG. `single_byte_character_string`
+# and `double_byte_character_string` stay directly usable where a preceding
+# 'STRING'/'WSTRING' keyword already disambiguates (see variables.bnf); here,
+# with no such keyword around, we use one shared, unaliased rule and defer the
+# single/double-byte distinction to a later semantic pass.
+character_string -> "'" character_representation* "'"
 		  ;
+
+character_representation -> common_character_representation
+			  | "$'"
+			  | '"'
+			  | /\$[0-9A-F][0-9A-F]([0-9A-F][0-9A-F])?/
+			  ;
 
 single_byte_character_string -> "'" single_byte_character_representation* "'"
 			      ;
