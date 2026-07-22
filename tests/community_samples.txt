@@ -1,0 +1,133 @@
+==================
+Enumerated type (WengerAG structured-text-utilities)
+==================
+
+TYPE
+	BINARY_ENCODING : (
+		BASE64,    // Base 64 Encoding as specified by RFC 4648
+		BASE64_URL // Base 64 URL Encoding as specified by RFC 4648
+	);
+END_TYPE
+
+---
+
+==================
+Structure type (WengerAG structured-text-utilities)
+==================
+
+TYPE
+	// Contains statistics information of an array of floating values.
+	FLOAT_ARRAY_STATISTICS : STRUCT
+		count : UDINT; // count of values
+		sum : LREAL; // sum of all values
+		min_val : LREAL; // minimal value
+		max_val : LREAL; // maximal value
+		med_val : LREAL; // median value
+		avg_val : LREAL; // average value
+		sum_sqr : LREAL; // sum of squares
+		std_dev : LREAL; // standard deviation
+	END_STRUCT
+END_TYPE
+
+---
+
+==================
+Function with nested call expression (WengerAG structured-text-utilities)
+==================
+
+FUNCTION CONCAT3 : STRING[254]
+	VAR_INPUT
+		in1 : STRING[254];
+		in2 : STRING[254];
+		in3 : STRING[254];
+	END_VAR
+
+	CONCAT3 := CONCAT(CONCAT(in1, in2), in3);
+END_FUNCTION
+
+---
+
+==================
+Function with VAR_TEMP and IF/ELSE (WengerAG structured-text-utilities)
+==================
+
+FUNCTION STRING_STARTSWITH : BOOL
+	VAR_INPUT
+		in1 : STRING[254];
+		in2 : STRING[254];
+	END_VAR
+
+	VAR_TEMP
+		in1_len : INT;
+		in2_len : INT;
+	END_VAR
+
+	in1_len := LEN(in1);
+	in2_len := LEN(in2);
+
+	IF in1_len < in2_len THEN
+		STRING_STARTSWITH := FALSE;
+	ELSE
+		STRING_STARTSWITH := LEFT(in1, in2_len) = in2;
+	END_IF;
+END_FUNCTION
+
+---
+
+==================
+Function referencing a derived type and calling another function (WengerAG structured-text-utilities)
+==================
+
+FUNCTION GET_DAY_OF_WEEK : USINT
+	VAR_INPUT
+		in : DATE;
+		kind : DAY_OF_WEEK_TYPE; // currently, only ISO 8601 is supported
+	END_VAR
+
+	GET_DAY_OF_WEEK := GET_DAY_OF_WEEK_INTERNAL(DATE_TO_UDINT_INTERNAL(in));
+END_FUNCTION
+
+---
+
+==================
+Function block with FOR loop, array indexing and struct field access (tkucic/UniTest)
+==================
+
+FUNCTION_BLOCK utTestReporter
+	(*Reset totals*)
+	NrPousUnderTest := 0;
+	NrOfTests := 0;
+	NrTestsPassed := 0;
+	NrTestsFailed := 0;
+	PassRate := 0;
+	TestsInProgress := FALSE;
+	Error := FALSE;
+
+	(*Count totals*)
+	FOR i:=0 TO Size DO
+		IF Results[i].Id > 0 THEN
+			(*Count existing POUs under test*)
+			NrPousUnderTest := NrPousUnderTest + 1;
+			(*Count the pass rate. Needs to be divided in the end by the number of total tests*)
+			PassRate := PassRate + Results[i].PassRate;
+			(*Count the number of tests*)
+			NrOfTests := NrOfTests + Results[i].TotalTests;
+			(*Count the number of tests passed*)
+			NrTestsPassed := NrTestsPassed + Results[i].TestsPassed;
+			(*Count the number of tests failed*)
+			NrTestsFailed := NrTestsFailed + Results[i].TestsFailed;
+
+			(*Indicators*)
+			IF Results[i].TestsRunning THEN
+				TestsInProgress := TRUE;
+			END_IF
+			IF Results[i].Error <> ut_NO_ERROR THEN
+				Error := TRUE;
+			END_IF
+		END_IF
+	END_FOR
+	PassRate := PassRate / NrPousUnderTest;
+END_FUNCTION_BLOCK
+
+---
+
