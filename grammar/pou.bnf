@@ -59,11 +59,37 @@ var2_init_decl -> var1_init_decl
 
 # B.1.5.2 Function blocks
 
+# NOTE: unlike the IEC grammar, this does not also offer
+# `derived_function_block_name` here. That case is a bare identifier,
+# indistinguishable from `type_name` wherever both would be reachable at the
+# same position (see the NOTEs around `var_init_decl` and
+# `structured_var_declaration` in variables.bnf) - callers that need to
+# accept a user-declared FB type already do so via `type_name`/
+# `type_name_reference`. This rule only needs to cover the standard names,
+# which are fixed keyword literals and so don't collide with `type_name` the
+# way a second bare-identifier rule would.
 function_block_type_name -> standard_function_block_name
-			  | derived_function_block_name
 			  ;
 
-standard_function_block_name -> 'FIXME' # as defined in 2.5.2.3
+# IEC 61131-3:2003 §2.5.2.3 (tables 34-38): the fixed set of standard
+# function blocks common to every conformant implementation.
+#   - Bistable (2.5.2.3.1): SR (set-dominant), RS (reset-dominant)
+#   - Edge detection (2.5.2.3.2): R_TRIG, F_TRIG
+#   - Counters (2.5.2.3.3): CTU/CTD/CTUD, each with typed variants suffixed
+#     by their PV/CV type. CTU and CTD each have all five (INT is the
+#     unsuffixed base name, plus _DINT/_LINT/_UDINT/_ULINT); CTUD only has
+#     four - the standard's own table 36 has no CTUD_UDINT.
+#   - Timers (2.5.2.3.4): TP (pulse), TON (on-delay), TOF (off-delay). Table
+#     37 also lists graphical-only shorthand forms, but "in textual
+#     languages, features 2b and 3b shall not be used" - not relevant here.
+# Communication function blocks (2.5.2.3.5) are deferred entirely to
+# IEC 61131-5, with no concrete names given in this part.
+standard_function_block_name -> 'SR' | 'RS'
+			      | 'R_TRIG' | 'F_TRIG'
+			      | 'CTU' | 'CTU_DINT' | 'CTU_LINT' | 'CTU_UDINT' | 'CTU_ULINT'
+			      | 'CTD' | 'CTD_DINT' | 'CTD_LINT' | 'CTD_UDINT' | 'CTD_ULINT'
+			      | 'CTUD' | 'CTUD_DINT' | 'CTUD_LINT' | 'CTUD_ULINT'
+			      | 'TP' | 'TON' | 'TOF'
 			      ;
 
 derived_function_block_name -> identifier
@@ -106,6 +132,6 @@ _program_decls -> io_var_declarations
 program_access_decls -> 'VAR_ACCESS' program_access_decl ';' (program_access_decl ';')* 'END_VAR'
 		      ;
 
-program_access_decl -> access_name ':' symbolic_variable ':' non_generic_type_name direction?
+program_access_decl -> access_name ':' symbolic_variable ':' _type_name_or_elementary direction?
                      ;
 

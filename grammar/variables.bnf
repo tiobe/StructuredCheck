@@ -66,23 +66,31 @@ input_declaration -> var_init_decl
 edge_declaration -> var1_list ':' 'BOOL' /[RF]_EDGE/
 		  ;
 
-# NOTE: deviates from the IEC grammar, which also offers `fb_name_decl` here
-# (`(var1_list => fb_name_list) ':' function_block_type_name (':=' structure_initialization)?`).
-# `function_block_type_name` is, in practice, just `derived_function_block_name
-# -> identifier` (since `standard_function_block_name` is still a placeholder)
-# - a bare identifier with nothing to distinguish it from `type_name` in
-# `structured_var_init_decl` below. "This names a FUNCTION_BLOCK" vs "this
+# NOTE: deviates from the IEC grammar's `fb_name_decl`
+# (`(var1_list => fb_name_list) ':' function_block_type_name (':=' structure_initialization)?`)
+# in one respect: the derived-FB-type half of `function_block_type_name` is
+# dropped, since `derived_function_block_name -> identifier` is a bare
+# identifier with nothing to distinguish it from `type_name` in
+# `structured_var_init_decl` below - "this names a FUNCTION_BLOCK" vs "this
 # names a TYPE" is only knowable from a symbol table, i.e. semantics/context,
-# not this CFG. It's also redundant as written: `type_name_reference`'s
-# initializer already includes `structure_initialization`, the only
-# initializer `fb_name_decl` offered. Dropped in favor of
-# `structured_var_init_decl` for both cases; `fb_name_decl` and its
-# `fb_name_list` alias are removed entirely, since this was their only use.
+# not this CFG. A derived FB instance like `myTimer : MyCustomFb;` is still
+# accepted, just folded into `structured_var_init_decl` like any other
+# type reference. What's kept is the standard-FB-type half: since
+# `function_block_type_name` is now restricted to `standard_function_block_name`
+# (fixed keyword literals - see pou.bnf), it no longer collides with
+# `type_name`, so `fb_instantiation` below reinstates it for names like
+# `myTimer : TON := (PT := t#100ms);`. The `fb_name_list` alias from the IEC
+# grammar isn't reinstated - `var1_list` alone is used, same as the other
+# alternatives here.
 var_init_decl -> var1_init_decl
 	       | array_var_init_decl
 	       | structured_var_init_decl
 	       | string_var_declaration
+	       | fb_instantiation
 	       ;
+
+fb_instantiation -> var1_list ':' function_block_type_name (':=' structure_initialization)?
+		  ;
 
 var1_init_decl -> var1_list ':' _var1_init_decl
 		;

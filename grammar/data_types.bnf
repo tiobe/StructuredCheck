@@ -6,9 +6,17 @@
 # 		| generic_type_name
 		#;
 
-non_generic_type_name -> elementary_type_name
-		       | derived_type_name
-		       ;
+# NOTE: the IEC grammar's `non_generic_type_name -> elementary_type_name |
+# derived_type_name` used to live here. `derived_type_name` aliased a bare
+# identifier six different ways (simple/subrange/enumerated/array/structure/
+# string type name - see the old `single_element_type_name` further down)
+# with nothing syntactically to tell them apart. Every call site
+# (`program_access_decl`, `access_declaration`, `array_specification`'s
+# element type) only has `:=`/`;`/`direction` following it - never enough
+# context to resolve which alias applies, which tree-sitter reports as an
+# unresolvable conflict. Each call site now uses `_type_name_or_elementary`
+# (further down) instead, which relies on the plain `type_name` for the
+# derived case - same fix already applied to `_function_type_name` (pou.bnf).
 
 # B.1.3.1 Elementary data types
 
@@ -60,16 +68,27 @@ bit_string_type_name -> 'BOOL'
 
 # B.1.3.3 Derived data types
 
-derived_type_name -> single_element_type_name
-		   | (identifier => array_type_name)
-		   | (identifier => structure_type_name)
-		   | (identifier => string_type_name)
-		   ;
-
-single_element_type_name -> (identifier => simple_type_name)
-			  | (identifier => subrange_type_name)
-			  | (identifier => enumerated_type_name)
-			  ;
+# NOTE: `derived_type_name` and `single_element_type_name` used to be defined
+# here as:
+#
+#   derived_type_name -> single_element_type_name
+#		      | (identifier => array_type_name)
+#		      | (identifier => structure_type_name)
+#		      | (identifier => string_type_name)
+#		      ;
+#
+#   single_element_type_name -> (identifier => simple_type_name)
+#			     | (identifier => subrange_type_name)
+#			     | (identifier => enumerated_type_name)
+#			     ;
+#
+# i.e. both were pure aliasing rules bundling the six bare-identifier type
+# name aliases together with no other content. Once their only remaining
+# caller, `non_generic_type_name`, was removed (see the NOTE above), they had
+# no call sites left and were dropped rather than kept as unused grammar. The
+# six aliases themselves (`simple_type_name` etc.) are still very much in
+# use - directly, at each `type_declaration` alternative below - so only the
+# two bundling rules went away, not the aliases.
 
 # NOTE: simple_type_name, subrange_type_name, enumerated_type_name, array_type_name,
 # structure_type_name and string_type_name are all syntactically bare identifiers.
@@ -88,6 +107,18 @@ single_element_type_name -> (identifier => simple_type_name)
 # choose between indistinguishable alternatives.
 type_name -> identifier
 	   ;
+
+# Same rationale as `_function_type_name` (pou.bnf): the derived case here
+# would normally be `derived_type_name`, but that rule aliases a bare
+# identifier six different ways with nothing to tell them apart
+# syntactically, so a type name reachable through it with no following
+# context to disambiguate is an unresolvable conflict. Used wherever a type
+# name is followed by nothing more specific than `:=`/`;`/a `direction` -
+# never enough to tell which alias applies: `program_access_decl`,
+# `access_declaration`, and `array_specification`'s element type.
+_type_name_or_elementary -> elementary_type_name
+			  | type_name
+			  ;
 
 _type_name_reference_init -> constant
 			   | enumerated_value
@@ -153,7 +184,7 @@ array_type_declaration -> (identifier => array_type_name) ':' array_spec_init
 array_spec_init -> array_specification (':=' array_initialization)?
 		 ;
 
-array_specification -> 'ARRAY' '[' subrange (',' subrange)* ']' 'OF' non_generic_type_name
+array_specification -> 'ARRAY' '[' subrange (',' subrange)* ']' 'OF' _type_name_or_elementary
 		     ;
 
 array_initialization -> '[' array_initial_elements (',' array_initial_elements)* ']'

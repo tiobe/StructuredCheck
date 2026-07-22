@@ -17,6 +17,11 @@
 # Verified against `NOT ENO => flag`, `x := NOT ENO`, and bare `NOT ENO`.
 %conflicts [param_assignment, unary_operator]
 
+# statement_list vs case_element: identifier after a statement could start
+# a new assignment_statement or the next case_element's enumerated_value.
+# Only disambiguated by the token after (# vs :=/(), so let GLR fork here.
+%conflicts [statement_list]
+
 # B.0 Programming Model
 
 library_element_declaration -> data_type_declaration
@@ -25,6 +30,22 @@ library_element_declaration -> data_type_declaration
 			     | program_declaration
 			     | configuration_declaration
 			     ;
+
+# IEC 61131-3 supports `(* ... *)` block comments (2003 edition, table B.1.7
+# lexical elements) and `//` line comments (a near-universal vendor extension,
+# not in the 2003 text but present in virtually every real-world ST codebase -
+# see tests/community_samples.txt, which uses both). Declared via `%extras`
+# so a comment can appear anywhere whitespace can, without every rule needing
+# to account for it explicitly. Kept below `library_element_declaration`
+# deliberately: the generated parser's start rule defaults to the first rule
+# written in this file, and `library_element_declaration` is the only rule
+# that makes sense as "the thing this grammar parses" - putting `comment`
+# ahead of it would silently hijack the start rule.
+comment -> /\(\*[\s\S]*?\*\)/
+	 | /\/\/[^\n]*/
+	 ;
+
+%extras /\s/, comment
 
 # B.3.1 Expressions
 

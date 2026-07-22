@@ -28,7 +28,7 @@ access_declarations -> 'VAR_ACCESS' (access_declaration ';')+ 'ENV_VAR'
 		     ;
 
 
-access_declaration -> access_name ':' access_path ':' non_generic_type_name direction?
+access_declaration -> access_name ':' access_path ':' _type_name_or_elementary direction?
 		    ;
 
 # NOTE: deviates from the IEC grammar, which also builds an explicit
@@ -45,15 +45,23 @@ access_path -> direct_variable
 	     | symbolic_variable
 	     ;
 
-global_var_reference -> (resource_name '.')? global_var_name ('.' structure_element_name)?
+# NOTE: deviates from the IEC grammar, which spells this out explicitly as
+# `(resource_name '.')? global_var_name ('.' structure_element_name)?`. That
+# shape is internally ambiguous on its own: given `a.b`, nothing tells the
+# parser whether `a` is a `resource_name` (prefix present, no suffix) or `a`
+# is the `global_var_name` itself (no prefix, `b` is the suffix
+# `structure_element_name`) - both derive the same two-identifier chain. Same
+# root cause as the `access_path` NOTE above (which segment is a resource,
+# program, FB instance, or struct field is a symbol-table question, not a
+# grammar one), so the fix is the same: drop the explicit prefix/suffix chain
+# and rely on `symbolic_variable`'s own recursion through `structured_variable`
+# to parse `a.b` unambiguously as nested struct-field access.
+global_var_reference -> symbolic_variable
 		      ;
 
 
 access_name -> identifier
 	     ;
-
-program_output_reference -> program_name '.' symbolic_variable
-			  ;
 
 program_name -> identifier
 	      ;
@@ -70,10 +78,17 @@ task_name -> identifier
 task_initialization -> '(' ('SINGLE' ':=' data_source ',')? ('INTERVAL' ':=' data_source ',')? 'PRIORITY' ':=' integer ')'
 		     ;
 
+# NOTE: deviates from the IEC grammar, which offers `global_var_reference`
+# and `program_output_reference` here instead of `access_path`. Both build a
+# `(resource_name|program_name) '.' ...` prefix in front of what is, once
+# you look past the labels, the same dotted-identifier chain `symbolic_variable`
+# already parses via `structured_variable`'s recursion - see the comment on
+# `access_path` above. Kept apart, they're ambiguous: `a.b.c` matches both
+# `resource_name '.' global_var_name '.' structure_element_name` and
+# `program_name '.' symbolic_variable` with no way to tell which without a
+# symbol table. `access_path` already covers direct and symbolic variables.
 data_source -> constant
-	     | global_var_reference
-	     | program_output_reference
-	     | direct_variable
+	     | access_path
 	     ;
 
 program_configuration -> 'PROGRAM' /(NON_)?RETAIN/? program_name ('WITH' task_name)? ':' program_type_name _prog_conf_elements?
@@ -111,8 +126,16 @@ instance_specific_initializations -> 'VAR_CONFIG' (instance_specific_init ';')+ 
 
 instance_specific_init -> resource_name '.' program_name '.' ((identifier => fb_name) '.')* _instance_specific_init;
 
+# NOTE: deviates from the IEC grammar, which also offers
+# `(identifier => fb_name) ':' function_block_type_name ':=' structure_initialization`
+# here alongside `variable_name location? ':' located_var_spec_init` - same
+# ambiguity as `external_declaration`/`global_var_decl` (variables.bnf):
+# `located_var_spec_init` already reaches a bare type name via
+# `_structure_element_declaration -> type_name_reference -> type_name`, and
+# `type_name_reference`'s optional initializer already covers
+# `structure_initialization`, so `fb_name : function_block_type_name :=
+# structure_initialization` is fully subsumed. Dropped.
 _instance_specific_init -> variable_name location? ':' located_var_spec_init
-			 | (identifier => fb_name) ':' function_block_type_name ':=' structure_initialization
 			 ;
 
 # This syntax does not reflect the fact that location assignments are only allowed for references to variables which are marked by the asterisk notation at type declaration level.
