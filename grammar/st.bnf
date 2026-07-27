@@ -41,7 +41,7 @@ library_element_declaration -> data_type_declaration
 # written in this file, and `library_element_declaration` is the only rule
 # that makes sense as "the thing this grammar parses" - putting `comment`
 # ahead of it would silently hijack the start rule.
-comment -> /\(\*[\s\S]*?\*\)/
+comment -> /\(\*([^*]|\*+[^*)])*\*+\)/
 	 | /\/\/[^\n]*/
 	 ;
 
