@@ -156,6 +156,7 @@ case_list -> case_list_element (',' case_list_element)*
 case_list_element -> subrange
 		   | signed_integer
 		   | enumerated_value
+		   | variable_name
 		   ;
 
 # B.3.2.4 Iteration Statements

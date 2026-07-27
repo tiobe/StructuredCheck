@@ -120,13 +120,7 @@ _type_name_or_elementary -> elementary_type_name
 			  | type_name
 			  ;
 
-_type_name_reference_init -> constant
-			   | enumerated_value
-			   | array_initialization
-			   | structure_initialization
-			   ;
-
-type_name_reference -> type_name (':=' _type_name_reference_init)?
+type_name_reference -> type_name (':=' _initial_value)?
 		     ;
 
 data_type_declaration -> 'TYPE' (type_declaration ';')+ 'END_TYPE'
@@ -169,11 +163,15 @@ subrange -> signed_integer '..' signed_integer
 enumerated_type_declaration -> (identifier => enumerated_type_name) ':' enumerated_spec_init
 			     ;
 
-enumerated_spec_init -> enumerated_specification (':=' enumerated_value)?
+enumerated_spec_init -> enumerated_specification (':=' _enumerated_specification_element)?
 		      ;
 
-enumerated_specification -> '(' enumerated_value (',' enumerated_value)* ')'
+enumerated_specification -> '(' _enumerated_specification_element (',' _enumerated_specification_element)* ')'
 			  ;
+
+_enumerated_specification_element -> enumerated_value
+				   | variable_name
+				   ;
 
 enumerated_value -> ((identifier => enumerated_type_name) '#') identifier
 		  ;
@@ -194,11 +192,19 @@ array_initial_elements -> array_initial_element
 			| integer '(' array_initial_element? ')'
 			;
 
-array_initial_element -> constant
-		       | enumerated_value
-		       | structure_initialization
-		       | array_initialization
+array_initial_element -> _initial_value
 		       ;
+
+# Shared by `type_name_reference`, `array_initial_element` and
+# `structure_element_initialization`: what a single scalar/composite
+# initializer value can look like, regardless of which of those three
+# declaration forms it's initializing.
+_initial_value -> constant
+		| enumerated_value
+		| variable_name
+		| structure_initialization
+		| array_initialization
+		;
 
 structure_type_declaration -> (identifier => structure_type_name) ':' structure_specification
 			    ;
@@ -225,14 +231,8 @@ structure_element_name -> identifier
 structure_initialization -> '(' structure_element_initialization (',' structure_element_initialization)* ')'
 			  ;
 
-structure_element_initialization -> structure_element_name ':=' _structure_element_initialization
+structure_element_initialization -> structure_element_name ':=' _initial_value
 				  ;
-
-_structure_element_initialization -> constant
-				   | enumerated_value
-				   | array_initialization
-				   | structure_initialization
-				   ;
 
 # NOTE: the '[' length ']' is mandatory here. A bare STRING/WSTRING with no length
 # and no initializer is already covered by simple_type_declaration, via
