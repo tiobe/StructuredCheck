@@ -16,7 +16,7 @@ standard_function_name -> 'FIXME'
 derived_function_name -> identifier
 		       ;
 
-function_declaration -> 'FUNCTION' derived_function_name ':' _function_type_name? _function_decls function_body 'END_FUNCTION'
+function_declaration -> 'FUNCTION' derived_function_name ':' _function_type_name? _function_decls* function_body 'END_FUNCTION'
 		      ;
 
 # NOTE: deviates from the IEC grammar, where the derived case here is
@@ -95,8 +95,12 @@ standard_function_block_name -> 'SR' | 'RS'
 derived_function_block_name -> identifier
 			     ;
 
-function_block_declaration -> 'FUNCTION_BLOCK' derived_function_block_name _function_decls? function_block_body 'END_FUNCTION_BLOCK'
+function_block_declaration -> 'FUNCTION_BLOCK' derived_function_block_name _function_block_decls* function_block_body 'END_FUNCTION_BLOCK'
 			    ;
+
+_function_block_decls -> io_var_declarations
+		       | other_var_declarations
+		       ;
 
 other_var_declarations -> external_var_declarations
 			| var_declarations
@@ -120,7 +124,7 @@ function_block_body -> sequential_function_chart | statement_list
 program_type_name -> identifier
 		   ;
 
-program_declaration -> 'PROGRAM' program_type_name _program_decls function_block_body 'END_PROGRAM'
+program_declaration -> 'PROGRAM' program_type_name _program_decls* function_block_body 'END_PROGRAM'
 		     ;
 
 _program_decls -> io_var_declarations
