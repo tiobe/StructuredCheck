@@ -41,12 +41,92 @@ TYPE
 		avg_val : LREAL; // average value
 		sum_sqr : LREAL; // sum of squares
 		std_dev : LREAL; // standard deviation
-	END_STRUCT
+	END_STRUCT;
 END_TYPE
 
 ---
 
-
+(library_element_declaration
+  (data_type_declaration
+    (comment)
+    (type_declaration
+      (structure_type_declaration
+        (structure_type_name)
+        (structure_specification
+          (structure_declaration
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (integer_type_name
+                        (unsigned_integer_type_name)))))))
+            (comment)
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (real_type_name))))))
+            (comment)
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (real_type_name))))))
+            (comment)
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (real_type_name))))))
+            (comment)
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (real_type_name))))))
+            (comment)
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (real_type_name))))))
+            (comment)
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (real_type_name))))))
+            (comment)
+            (structure_element_declaration
+              (structure_element_name
+                (identifier))
+              (simple_spec_init
+                (simple_specification
+                  (elementary_type_name
+                    (numeric_type_name
+                      (real_type_name))))))
+            (comment)))))))
 
 ==================
 Function with nested call expression (WengerAG structured-text-utilities)
