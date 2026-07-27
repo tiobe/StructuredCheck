@@ -260,7 +260,7 @@ END_FUNCTION
                                                             (identifier)))))))))))))))))))))))))))))))
 
 ==================
-Function with VAR_TEMP and IF/ELSE (WengerAG structured-text-utilities)
+Function with VAR and IF/ELSE (WengerAG structured-text-utilities)
 ==================
 
 FUNCTION STRING_STARTSWITH : BOOL
@@ -269,7 +269,7 @@ FUNCTION STRING_STARTSWITH : BOOL
 		in2 : STRING[254];
 	END_VAR
 
-	VAR_TEMP
+	VAR
 		in1_len : INT;
 		in2_len : INT;
 	END_VAR
@@ -286,7 +286,231 @@ END_FUNCTION
 
 ---
 
-
+(library_element_declaration
+  (function_declaration
+    (derived_function_name
+      (identifier))
+    (elementary_type_name
+      (bit_string_type_name))
+    (io_var_declarations
+      (input_declarations
+        (input_declaration
+          (var_init_decl
+            (string_var_declaration
+              (single_byte_string_var_declaration
+                (var1_list
+                  (variable_name
+                    (identifier)))
+                (single_byte_string_spec
+                  (integer))))))
+        (input_declaration
+          (var_init_decl
+            (string_var_declaration
+              (single_byte_string_var_declaration
+                (var1_list
+                  (variable_name
+                    (identifier)))
+                (single_byte_string_spec
+                  (integer))))))))
+    (function_var_decls
+      (var2_init_decl
+        (var1_init_decl
+          (var1_list
+            (variable_name
+              (identifier)))
+          (simple_spec_init
+            (simple_specification
+              (elementary_type_name
+                (numeric_type_name
+                  (integer_type_name
+                    (signed_integer_type_name))))))))
+      (var2_init_decl
+        (var1_init_decl
+          (var1_list
+            (variable_name
+              (identifier)))
+          (simple_spec_init
+            (simple_specification
+              (elementary_type_name
+                (numeric_type_name
+                  (integer_type_name
+                    (signed_integer_type_name)))))))))
+    (function_body
+      (statement_list
+        (statement
+          (assignment_statement
+            (variable
+              (symbolic_variable
+                (variable_name
+                  (identifier))))
+            (expression
+              (xor_expression
+                (and_expression
+                  (comparison
+                    (equ_expression
+                      (add_expression
+                        (term
+                          (power_expression
+                            (unary_expression
+                              (primary_expression
+                                (function_name
+                                  (derived_function_name
+                                    (identifier)))
+                                (param_assignment
+                                  (expression
+                                    (xor_expression
+                                      (and_expression
+                                        (comparison
+                                          (equ_expression
+                                            (add_expression
+                                              (term
+                                                (power_expression
+                                                  (unary_expression
+                                                    (primary_expression
+                                                      (variable
+                                                        (symbolic_variable
+                                                          (variable_name
+                                                            (identifier)))))))))))))))))))))))))))
+        (statement
+          (assignment_statement
+            (variable
+              (symbolic_variable
+                (variable_name
+                  (identifier))))
+            (expression
+              (xor_expression
+                (and_expression
+                  (comparison
+                    (equ_expression
+                      (add_expression
+                        (term
+                          (power_expression
+                            (unary_expression
+                              (primary_expression
+                                (function_name
+                                  (derived_function_name
+                                    (identifier)))
+                                (param_assignment
+                                  (expression
+                                    (xor_expression
+                                      (and_expression
+                                        (comparison
+                                          (equ_expression
+                                            (add_expression
+                                              (term
+                                                (power_expression
+                                                  (unary_expression
+                                                    (primary_expression
+                                                      (variable
+                                                        (symbolic_variable
+                                                          (variable_name
+                                                            (identifier)))))))))))))))))))))))))))
+        (statement
+          (selection_statement
+            (if_statement
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier)))))))))
+                        (comparison_operator)
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier))))))))))))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (boolean_literal)))))))))))))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (function_name
+                                          (derived_function_name
+                                            (identifier)))
+                                        (param_assignment
+                                          (expression
+                                            (xor_expression
+                                              (and_expression
+                                                (comparison
+                                                  (equ_expression
+                                                    (add_expression
+                                                      (term
+                                                        (power_expression
+                                                          (unary_expression
+                                                            (primary_expression
+                                                              (variable
+                                                                (symbolic_variable
+                                                                  (variable_name
+                                                                    (identifier)))))))))))))))
+                                        (param_assignment
+                                          (expression
+                                            (xor_expression
+                                              (and_expression
+                                                (comparison
+                                                  (equ_expression
+                                                    (add_expression
+                                                      (term
+                                                        (power_expression
+                                                          (unary_expression
+                                                            (primary_expression
+                                                              (variable
+                                                                (symbolic_variable
+                                                                  (variable_name
+                                                                    (identifier)))))))))))))))))))))
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (variable
+                                          (symbolic_variable
+                                            (variable_name
+                                              (identifier))))))))))))))))))))))))
 
 ==================
 Function referencing a derived type and calling another function (WengerAG structured-text-utilities)

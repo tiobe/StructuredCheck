@@ -16,7 +16,7 @@ copyright notice is retained - reproduced here:
 Copyright (c) 2019 Wenger Automation & Engineering AG, Winterthur, Switzerland.
 
 Used for: "Enumerated type", "Structure type", "Function with nested call
-expression", "Function with VAR_TEMP and IF/ELSE", "Function referencing a
+expression", "Function with VAR and IF/ELSE", "Function referencing a
 derived type and calling another function".
 
 Source files: `UTILITIES_BYTE.st`, `UTILITIES_MATH.st`, `UTILITIES_STRING.st`,
@@ -66,15 +66,23 @@ practice, these specific spots were edited to match the standard instead:
     access"**: nested `IF...END_IF` and `FOR...END_FOR` statements not
     followed by a `;` before the next statement.
   Added the missing `;`s in both.
+- **"Function with VAR and IF/ELSE"** (originally "Function with VAR_TEMP and
+  IF/ELSE"): the function declared a `VAR_TEMP...END_VAR` block, but
+  `VAR_TEMP` is only valid inside a function *block* or program per
+  B.1.5.1/B.1.5.2 ("Within function blocks and programs, variables can be
+  declared in a VAR_TEMP...END_VAR construction") - a plain `FUNCTION` only
+  gets `VAR [CONSTANT] ... END_VAR`, since it has no persistent state for a
+  temp/non-temp distinction to matter. Changed to `VAR` and renamed the test
+  accordingly.
 
 These are judgment calls, not the only possible resolution - an equally
 valid alternative would have been to relax the grammar to accept the
-originals as written, since both patterns are widely tolerated by real PLC
-tooling (CODESYS, TwinCAT). That door isn't closed: these decisions are
+originals as written, since all three patterns are widely tolerated by real
+PLC tooling (CODESYS, TwinCAT). That door isn't closed: these decisions are
 recorded (with the standard-conformance evidence found for each) as
 StructuredCheck project memory, to revisit if a strong enough reason comes
 up to prioritize real-world leniency over strict standard conformance for
-either of them.
+any of them.
 
 ## Coverage gap
 
