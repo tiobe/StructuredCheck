@@ -1,5 +1,6 @@
 GRAMMAR_NAME := st
 GRAMMAR_SRC  := grammar/$(GRAMMAR_NAME).bnf
+GRAMMAR_DEPS := $(wildcard grammar/*.bnf)
 BUILD_DIR    := build/tree-sitter-$(GRAMMAR_NAME)
 TESTS_DIR    := tests
 
@@ -22,7 +23,7 @@ check: ## Run ts-bnf-tool static checks on the BNF grammar
 
 grammar: $(BUILD_DIR)/src/parser.c ## Generate the tree-sitter parser from the BNF grammar
 
-$(BUILD_DIR)/src/parser.c: $(GRAMMAR_SRC)
+$(BUILD_DIR)/src/parser.c: $(GRAMMAR_DEPS)
 	rm -rf $(BUILD_DIR)
 	$(TS_BNF_TOOL) convert --generate --name $(GRAMMAR_NAME) --output-dir $(BUILD_DIR) $(GRAMMAR_SRC)
 
