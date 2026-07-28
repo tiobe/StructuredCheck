@@ -41,7 +41,7 @@ TYPE
 		avg_val : LREAL; // average value
 		sum_sqr : LREAL; // sum of squares
 		std_dev : LREAL; // standard deviation
-	END_STRUCT;
+	END_STRUCT
 END_TYPE
 
 ---
@@ -639,12 +639,12 @@ FUNCTION_BLOCK utTestReporter
 			(*Indicators*)
 			IF Results[i].TestsRunning THEN
 				TestsInProgress := TRUE;
-			END_IF;
+			END_IF
 			IF Results[i].Error <> ut_NO_ERROR THEN
 				Error := TRUE;
-			END_IF;
-		END_IF;
-	END_FOR;
+			END_IF
+		END_IF
+	END_FOR
 	PassRate := PassRate / NrPousUnderTest;
 END_FUNCTION_BLOCK
 

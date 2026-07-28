@@ -55,17 +55,16 @@ practice, these specific spots were edited to match the standard instead:
   type per B.1.5.1 (`elementary_type_name | derived_type_name` only - a bare
   `STRING` keyword or a type-alias identifier, never a size). Changed to a
   bare `STRING`.
-- **Missing `;` after block-terminated constructs** - IEC 61131-3:2003
-  requires a `;` after every `type_declaration` (B.1.3) and every
-  `statement` (B.3.2), even ones that already end in their own closing
-  keyword (`END_STRUCT`, `END_IF`, `END_FOR`, ...) - confirmed against
-  nearly every worked example in the standard, which consistently write
-  e.g. `END_STRUCT ;` and `END_FOR ;`. Two samples omitted it:
-  - **"Structure type"**: no `;` between `END_STRUCT` and `END_TYPE`.
-  - **"Function block with FOR loop, array indexing and struct field
-    access"**: nested `IF...END_IF` and `FOR...END_FOR` statements not
-    followed by a `;` before the next statement.
-  Added the missing `;`s in both.
+- **Missing `;` after block-terminated constructs** - *adaptation since
+  reverted.* IEC 61131-3:2003 requires a `;` after every
+  `type_declaration` (B.1.3) and every `statement` (B.3.2), even ones
+  that already end in their own closing keyword (`END_STRUCT`, `END_IF`,
+  `END_FOR`, ...), and two samples ("Structure type"; "Function block
+  with FOR loop, array indexing and struct field access") omitted it, so
+  the missing `;`s were originally added here. That call was reversed
+  (approved by Paul, 2026-07-27 - see `PLAN_optional_end_semicolons.md`
+  and `FINDINGS.md` #1): the grammar now accepts both forms, and both
+  samples were restored to their original semicolon-less text.
 - **"Function with VAR and IF/ELSE"** (originally "Function with VAR_TEMP and
   IF/ELSE"): the function declared a `VAR_TEMP...END_VAR` block, but
   `VAR_TEMP` is only valid inside a function *block* or program per

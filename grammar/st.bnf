@@ -99,11 +99,18 @@ primary_expression -> constant
 
 # B3.2 Statements
 
-statement_list -> (statement? ';')+
+statement_list -> (statement | ';')+
 		;
 
-statement -> assignment_statement
-	   | subprogram_control_statement
+# The ';' terminator lives inside `statement`, per alternative, so that
+# constructs already closed by their own END_* keyword (IF/CASE/FOR/WHILE/
+# REPEAT) can omit it - common in real-world PLC code - while everything
+# else keeps a mandatory ';': it's the only thing separating two of them
+# syntactically. A trailing ';' after an END_* construct is still accepted,
+# parsing as statement_list's bare-';' empty statement. EXIT is the one
+# iteration_statement with no closing keyword, so it carries its ';' there.
+statement -> assignment_statement ';'
+	   | subprogram_control_statement ';'
 	   | selection_statement
 	   | iteration_statement
 	   ;
@@ -164,7 +171,7 @@ case_list_element -> subrange
 iteration_statement -> for_statement
 		     | while_statement
 		     | repeat_statement
-		     | exit_statement
+		     | exit_statement ';'
 		     ;
 
 for_statement -> 'FOR' control_variable ':=' for_list 'DO' statement_list 'END_FOR'

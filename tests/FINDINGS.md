@@ -2,12 +2,31 @@
 
 `community_samples.txt` (see `SOURCES.md` for provenance) surfaced four
 grammar gaps beyond the tree-sitter conflict fixes. This documents each one:
-the failing example, the root cause, and a recommended fix. No grammar
-changes have been made for these yet - this is a decision record to act on.
+the failing example, the root cause, and a recommended fix. Findings still
+open are a decision record to act on; resolved ones note the actual fix.
 
 ## 1. Mandatory `;` after constructs that already end in a closing keyword
 
-**Fails today:**
+**Resolved (2026-07-28).** Approved by Paul (see
+`tests/PLAN_optional_end_semicolons.md`): the `;` is now optional after
+constructs that end in their own closing keyword, reversing the earlier
+"require it, strict-to-standard" decision. The implemented rule shape
+differs from the sketch below: rather than splitting `statement_list`
+into hidden terminated/plain rules (which would have dropped the
+`statement`/`type_declaration` wrapper nodes from every parse tree), the
+`;` moved *inside* `statement` and `type_declaration`, per alternative -
+mandatory for the alternatives with no closing keyword
+(`assignment_statement`, `subprogram_control_statement`, and
+`exit_statement`, which the original scope sketch overlooked; it sits
+inside `iteration_statement` but is bare `EXIT`, no `END_*`), absent for
+`selection_statement`/`iteration_statement`, and optional (`';'?`) for
+`structure_type_declaration`. A trailing `;` after an `END_*` statement
+still parses, as `statement_list`'s pre-existing bare-`;` empty
+statement. Coverage: `tests/end_terminator_semicolons.txt` (all six
+`END_*` keywords, with and without `;`), and the two adapted corpus
+samples were reverted to their original semicolon-less form.
+
+**Original finding follows.** Failed at the time:
 
 ```
 TYPE
