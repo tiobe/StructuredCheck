@@ -1,0 +1,245 @@
+
+%include 'literals.bnf'
+
+# B.1.4 Variables
+
+variable -> direct_variable
+	  | symbolic_variable
+	  ;
+
+symbolic_variable -> variable_name
+		   | multi_element_variable
+		   ;
+
+variable_name -> identifier
+	       ;
+
+
+# B.1.4.1 Directly represented variables
+
+direct_variable -> '%' location_prefix size_prefix? integer ('.' integer)*
+		 ;
+
+location_prefix -> /[IQM]/
+		 ;
+
+# FIXME: Grammar defines 'NIL', which I suppose is empty...
+size_prefix -> /[XBWDL]/
+	     ;
+
+# B.1.4.2 Multi-element variables
+
+multi_element_variable -> array_variable
+			| structured_variable
+			;
+
+array_variable -> subscripted_variable subscript_list
+		;
+
+subscripted_variable -> symbolic_variable
+		      ;
+
+subscript_list -> '[' subscript (',' subscript)* ']'
+		;
+
+subscript -> expression
+	   ;
+
+structured_variable -> record_variable '.' field_selector
+		     ;
+
+record_variable -> symbolic_variable
+		 ;
+
+field_selector -> identifier
+		;
+
+# B.1.4.3 Declaration and initialization
+
+input_declarations -> 'VAR_INPUT' /(NON_)?RETAIN/? (input_declaration ';')+ 'END_VAR'
+		    ;
+
+input_declaration -> var_init_decl
+		   | edge_declaration
+		   ;
+
+edge_declaration -> var1_list ':' 'BOOL' /[RF]_EDGE/
+		  ;
+
+# NOTE: deviates from the IEC grammar's `fb_name_decl`
+# (`(var1_list => fb_name_list) ':' function_block_type_name (':=' structure_initialization)?`)
+# in one respect: the derived-FB-type half of `function_block_type_name` is
+# dropped, since `derived_function_block_name -> identifier` is a bare
+# identifier with nothing to distinguish it from `type_name` in
+# `structured_var_init_decl` below - "this names a FUNCTION_BLOCK" vs "this
+# names a TYPE" is only knowable from a symbol table, i.e. semantics/context,
+# not this CFG. A derived FB instance like `myTimer : MyCustomFb;` is still
+# accepted, just folded into `structured_var_init_decl` like any other
+# type reference. What's kept is the standard-FB-type half: since
+# `function_block_type_name` is now restricted to `standard_function_block_name`
+# (fixed keyword literals - see pou.bnf), it no longer collides with
+# `type_name`, so `fb_instantiation` below reinstates it for names like
+# `myTimer : TON := (PT := t#100ms);`. The `fb_name_list` alias from the IEC
+# grammar isn't reinstated - `var1_list` alone is used, same as the other
+# alternatives here.
+var_init_decl -> var1_init_decl
+	       | array_var_init_decl
+	       | structured_var_init_decl
+	       | string_var_declaration
+	       | fb_instantiation
+	       ;
+
+fb_instantiation -> var1_list ':' function_block_type_name (':=' structure_initialization)?
+		  ;
+
+var1_init_decl -> var1_list ':' _var1_init_decl
+		;
+
+_var1_init_decl -> simple_spec_init
+		 | subrange_spec_init
+		 | enumerated_spec_init
+		 ;
+
+var1_list -> variable_name (',' variable_name)*
+	   ;
+
+array_var_init_decl -> var1_list ':' array_spec_init
+		     ;
+
+structured_var_init_decl -> var1_list ':' type_name_reference
+			  ;
+
+output_declarations -> 'VAR_OUTPUT' /(NON_)?RETAIN/? (var_init_decl ';')+ 'END_VAR'
+		     ;
+
+input_output_declarations -> 'VAR_IN_OUT' (var_declaration ';')+ 'END_VAR'
+			   ;
+
+# NOTE: deviates from the IEC grammar, which also offers `fb_name_decl` as an
+# alternative here, same reasoning as `var_init_decl` above: whether a bare
+# `foo : Bar;` names a FUNCTION_BLOCK instance or a struct-typed variable
+# isn't decidable without a symbol table, and `fb_name_decl`'s only other
+# content, `(':=' structure_initialization)?`, is optional and VAR_IN_OUT
+# doesn't allow initializers anyway - so it adds nothing `structured_var_declaration`
+# doesn't already accept. Dropped here (see `var_init_decl` above for where
+# `fb_name_decl` itself was removed).
+var_declaration -> temp_var_decl
+		 ;
+
+temp_var_decl -> var1_declaration
+	       | array_var_declaration
+	       | structured_var_declaration
+	       | string_var_declaration
+	       ;
+
+var1_declaration -> var1_list ':' _var1_declaration
+		  ;
+
+_var1_declaration -> simple_specification
+		   | subrange_specification
+		   | enumerated_specification
+		   ;
+
+array_var_declaration -> var1_list ':' array_specification
+		       ;
+
+# NOTE: uses `type_name`, not `(identifier => structure_type_name)` as the
+# IEC grammar does - since this now also covers the merged FUNCTION_BLOCK
+# case (see `var_declaration` above), aliasing it specifically as
+# "structure_type_name" would be misleading; which of the two it actually is
+# isn't decidable here anyway.
+structured_var_declaration -> var1_list ':' type_name
+			    ;
+
+var_declarations -> 'VAR' 'CONSTANT'? (var_init_decl ';')+ 'END_VAR'
+		  ;
+
+retentive_var_declarations -> 'VAR' 'RETAIN' (var_init_decl ';')+ 'END_VAR'
+			    ;
+
+located_var_declarations -> 'VAR' ('CONSTANT' | /(NON_)?RETAIN/) ? (located_var_decl ';')+ 'END_VAR'
+			  ;
+
+located_var_decl -> variable_name? location ':' located_var_spec_init
+		  ;
+
+external_var_declarations -> 'VAR_EXTERNAL' 'CONSTANT'? (external_declaration ';')+ 'END_VAR'
+			   ;
+
+external_declaration -> global_var_name ':' _external_declaration
+		      ;
+
+# NOTE: deviates from the IEC grammar, which also offers `function_block_type_name`
+# here alongside `type_name` - same ambiguity as above (both reduce to a bare
+# identifier, and which kind it is isn't decidable without a symbol table).
+# Dropped in favor of `type_name` alone.
+_external_declaration -> simple_specification
+		       | subrange_specification
+		       | enumerated_specification
+		       | structured_variable
+		       | type_name
+		       ;
+
+global_var_name -> identifier
+		 ;
+
+global_var_declarations -> 'VAR_GLOBAL' ('CONSTANT'|'RETAIN')? (global_var_decl ';')+ 'END_VAR'
+			 ;
+
+# NOTE: deviates from the IEC grammar, which also offers `function_block_type_name`
+# here alongside `located_var_spec_init` - same ambiguity as `_external_declaration`
+# above: `located_var_spec_init` already reaches `type_name` via
+# `_structure_element_declaration -> ... | type_name_reference`
+# (data_types.bnf), so `function_block_type_name` was a redundant, ambiguous
+# alternative. Dropped.
+global_var_decl -> global_var_spec ':' located_var_spec_init?
+		 ;
+
+global_var_spec -> global_var_list
+		 | global_var_name? location
+		 ;
+
+located_var_spec_init -> _structure_element_declaration
+		       | single_byte_string_spec
+		       | double_byte_string_spec
+		       ;
+
+location -> 'AT' direct_variable
+	  ;
+
+global_var_list -> global_var_name (',' global_var_name)*
+		 ;
+
+string_var_declaration -> single_byte_string_var_declaration
+			| double_byte_string_var_declaration
+			;
+
+single_byte_string_var_declaration -> var1_list ':' single_byte_string_spec
+				    ;
+
+single_byte_string_spec -> 'STRING' ('[' integer ']')? (':=' single_byte_character_string)?
+			 ;
+
+
+double_byte_string_var_declaration -> var1_list ':' double_byte_string_spec
+				    ;
+
+double_byte_string_spec -> 'WSTRING' ('[' integer ']')? (':=' double_byte_character_string)?
+			 ;
+
+incompl_located_var_declarations -> 'VAR' /(NON_)?RETAIN/? (incompl_located_var_decl ';')+ 'END_VAR'
+				  ;
+
+incompl_located_var_decl -> variable_name incompl_location ':' var_spec
+			  ;
+
+incompl_location -> 'AT' '%' /[IQM]/ '*'
+		  ;
+
+var_spec -> simple_specification
+	  | subrange_specification
+	  | enumerated_specification
+	  | array_spec_init
+	  | type_name
+	  | /W?STRING/ ('[' integer ']')
+	  ;

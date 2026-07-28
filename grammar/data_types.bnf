@@ -1,0 +1,248 @@
+
+# B.1.3
+
+# FIXME: Not used, only in library_element_name (not sure what that is)
+# data_type_name -> non_generic_type_name
+# 		| generic_type_name
+		#;
+
+# NOTE: the IEC grammar's `non_generic_type_name -> elementary_type_name |
+# derived_type_name` used to live here. `derived_type_name` aliased a bare
+# identifier six different ways (simple/subrange/enumerated/array/structure/
+# string type name - see the old `single_element_type_name` further down)
+# with nothing syntactically to tell them apart. Every call site
+# (`program_access_decl`, `access_declaration`, `array_specification`'s
+# element type) only has `:=`/`;`/`direction` following it - never enough
+# context to resolve which alias applies, which tree-sitter reports as an
+# unresolvable conflict. Each call site now uses `_type_name_or_elementary`
+# (further down) instead, which relies on the plain `type_name` for the
+# derived case - same fix already applied to `_function_type_name` (pou.bnf).
+
+# B.1.3.1 Elementary data types
+
+elementary_type_name -> numeric_type_name
+		      | date_type_name
+		      | bit_string_type_name
+		      | /W?STRING/
+		      | 'TIME'
+		      ;
+
+numeric_type_name -> integer_type_name
+		   | real_type_name
+		   ;
+
+integer_type_name -> signed_integer_type_name
+		   | unsigned_integer_type_name
+		   ;
+
+signed_integer_type_name -> /[SDL]?INT/
+			  ;
+
+			  
+unsigned_integer_type_name -> /U[SDL]?INT/
+			    ;
+
+real_type_name -> /L?REAL/
+		;
+
+date_type_name -> 'DATE'
+		| 'TIME_OF_DAY'
+		| 'TOD'
+		| 'DATE_AND_TIME'
+		| 'DT'
+		;
+
+bit_string_type_name -> 'BOOL'
+		      | 'BYTE'
+		      | /[LD]?WORD/
+		      ;
+		      
+			    
+# B.1.3.2 Generic data types
+
+# FIXME: used by data_type_name that is used by library_element_name, that I am not sure what it is about
+# generic_type_name -> 'ANY'
+		   #| /ANY_(DERIVED|ELEMENTARY|MAGNITUDE|NUM|REAL|INT|BIT|STRING|DATE)/
+		   #;
+
+
+# B.1.3.3 Derived data types
+
+# NOTE: `derived_type_name` and `single_element_type_name` used to be defined
+# here as:
+#
+#   derived_type_name -> single_element_type_name
+#		      | (identifier => array_type_name)
+#		      | (identifier => structure_type_name)
+#		      | (identifier => string_type_name)
+#		      ;
+#
+#   single_element_type_name -> (identifier => simple_type_name)
+#			     | (identifier => subrange_type_name)
+#			     | (identifier => enumerated_type_name)
+#			     ;
+#
+# i.e. both were pure aliasing rules bundling the six bare-identifier type
+# name aliases together with no other content. Once their only remaining
+# caller, `non_generic_type_name`, was removed (see the NOTE above), they had
+# no call sites left and were dropped rather than kept as unused grammar. The
+# six aliases themselves (`simple_type_name` etc.) are still very much in
+# use - directly, at each `type_declaration` alternative below - so only the
+# two bundling rules went away, not the aliases.
+
+# NOTE: simple_type_name, subrange_type_name, enumerated_type_name, array_type_name,
+# structure_type_name and string_type_name are all syntactically bare identifiers.
+# They are kept as distinct node labels via aliasing (rather than as separate rules)
+# so the parser only ever has one production to reduce an identifier through here;
+# which label actually applies is only resolved once enough of the surrounding
+# declaration has been parsed to tell the kinds apart.
+
+# NOTE: a declaration that is just `identifier` on the right of ':' is an alias to
+# some other, already-declared type. Its actual kind (simple/subrange/enumerated/
+# array/structure) is not decidable from syntax alone - that requires a symbol
+# table. So this is kept as ONE shared rule and referenced wherever a bare alias
+# would otherwise be reachable through more than one of simple_specification,
+# subrange_specification, enumerated_specification, array_specification or a
+# structure alias - keeping it in more than one of those would make the parser
+# choose between indistinguishable alternatives.
+type_name -> identifier
+	   ;
+
+# Same rationale as `_function_type_name` (pou.bnf): the derived case here
+# would normally be `derived_type_name`, but that rule aliases a bare
+# identifier six different ways with nothing to tell them apart
+# syntactically, so a type name reachable through it with no following
+# context to disambiguate is an unresolvable conflict. Used wherever a type
+# name is followed by nothing more specific than `:=`/`;`/a `direction` -
+# never enough to tell which alias applies: `program_access_decl`,
+# `access_declaration`, and `array_specification`'s element type.
+_type_name_or_elementary -> elementary_type_name
+			  | type_name
+			  ;
+
+type_name_reference -> type_name (':=' _initial_value)?
+		     ;
+
+data_type_declaration -> 'TYPE' type_declaration+ 'END_TYPE'
+		       ;
+
+# The ';' lives inside `type_declaration`, per alternative: a structure
+# declaration is already closed by its END_STRUCT keyword, so its ';' is
+# optional (common in real-world PLC code); every other kind has no closing
+# keyword and keeps a mandatory ';'.
+type_declaration -> single_element_type_declaration ';'
+		  | array_type_declaration ';'
+		  | structure_type_declaration ';'?
+		  | string_type_declaration ';'
+		  | type_name_reference ';'
+		  ;
+
+single_element_type_declaration -> simple_type_declaration
+				 | subrange_type_declaration
+				 | enumerated_type_declaration
+				 ;
+
+simple_type_declaration -> (identifier => simple_type_name) ':' simple_spec_init
+			 ;
+
+simple_spec_init -> simple_specification (':=' constant)?
+		  ;
+
+simple_specification -> elementary_type_name
+		      ;
+
+subrange_type_declaration -> (identifier => subrange_type_name) ':' subrange_spec_init
+			   ;
+
+
+subrange_spec_init -> subrange_specification (':=' signed_integer)?
+		    ;
+
+subrange_specification -> integer_type_name '(' subrange ')'
+			;
+
+subrange -> signed_integer '..' signed_integer
+	  ;
+
+enumerated_type_declaration -> (identifier => enumerated_type_name) ':' enumerated_spec_init
+			     ;
+
+enumerated_spec_init -> enumerated_specification (':=' _enumerated_specification_element)?
+		      ;
+
+enumerated_specification -> '(' _enumerated_specification_element (',' _enumerated_specification_element)* ')'
+			  ;
+
+_enumerated_specification_element -> enumerated_value
+				   | variable_name
+				   ;
+
+enumerated_value -> ((identifier => enumerated_type_name) '#') identifier
+		  ;
+
+array_type_declaration -> (identifier => array_type_name) ':' array_spec_init
+			;
+
+array_spec_init -> array_specification (':=' array_initialization)?
+		 ;
+
+array_specification -> 'ARRAY' '[' subrange (',' subrange)* ']' 'OF' _type_name_or_elementary
+		     ;
+
+array_initialization -> '[' array_initial_elements (',' array_initial_elements)* ']'
+		      ;
+
+array_initial_elements -> array_initial_element
+			| integer '(' array_initial_element? ')'
+			;
+
+array_initial_element -> _initial_value
+		       ;
+
+# Shared by `type_name_reference`, `array_initial_element` and
+# `structure_element_initialization`: what a single scalar/composite
+# initializer value can look like, regardless of which of those three
+# declaration forms it's initializing.
+_initial_value -> constant
+		| enumerated_value
+		| variable_name
+		| structure_initialization
+		| array_initialization
+		;
+
+structure_type_declaration -> (identifier => structure_type_name) ':' structure_specification
+			    ;
+
+structure_specification -> structure_declaration
+			 ;
+
+structure_declaration -> 'STRUCT' (structure_element_declaration ';')+ 'END_STRUCT'
+		       ;
+
+structure_element_declaration -> structure_element_name ':' _structure_element_declaration
+			       ;
+
+_structure_element_declaration -> simple_spec_init
+				| subrange_spec_init
+				| enumerated_spec_init
+				| array_spec_init
+				| type_name_reference
+				;
+
+structure_element_name -> identifier
+			;
+
+structure_initialization -> '(' structure_element_initialization (',' structure_element_initialization)* ')'
+			  ;
+
+structure_element_initialization -> structure_element_name ':=' _initial_value
+				  ;
+
+# NOTE: the '[' length ']' is mandatory here. A bare STRING/WSTRING with no length
+# and no initializer is already covered by simple_type_declaration, via
+# elementary_type_name -> /W?STRING/ (see simple_specification). Making the
+# length optional here as well would let both rules derive the same input
+# (e.g. `Foo : STRING;`), which is an unresolvable grammar conflict.
+string_type_declaration -> (identifier => string_type_name) ':' /W?STRING/ '[' integer ']' (':=' character_string)?
+			 ;
+			 

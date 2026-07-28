@@ -1,0 +1,193 @@
+
+%include "literals.bnf"
+%include "pou.bnf"
+%include "sfc.bnf"
+%include "configuration.bnf"
+
+# param_assignment's `'NOT'? variable_name '=>' variable` (negate an FB's
+# output parameter on the way out) and unary_operator's `'NOT' primary_expression`
+# (boolean negation in an expression) both start with 'NOT' identifier, and
+# there's no precedence that makes one "win" over the other in general -
+# whether a given `NOT x` belongs to the output form is only known once '=>'
+# does or doesn't turn up right after. This is genuinely ambiguous locally,
+# not something restructuring the grammar can remove, so we hand it to GLR.
+# Tree-sitter's default conflict heuristic (prefer the longer/shift parse)
+# gives the right answer: it tries the `'=>' variable` continuation first and
+# falls back to a plain boolean-negation expression when '=>' isn't there.
+# Verified against `NOT ENO => flag`, `x := NOT ENO`, and bare `NOT ENO`.
+%conflicts [param_assignment, unary_operator]
+
+# statement_list vs case_element: identifier after a statement could start
+# a new assignment_statement or the next case_element's enumerated_value.
+# Only disambiguated by the token after (# vs :=/(), so let GLR fork here.
+%conflicts [statement_list]
+
+# B.0 Programming Model
+
+library_element_declaration -> data_type_declaration
+			     | function_declaration
+			     | function_block_declaration
+			     | program_declaration
+			     | configuration_declaration
+			     ;
+
+# IEC 61131-3 supports `(* ... *)` block comments (2003 edition, table B.1.7
+# lexical elements) and `//` line comments (a near-universal vendor extension,
+# not in the 2003 text but present in virtually every real-world ST codebase -
+# see tests/community_samples.txt, which uses both). Declared via `%extras`
+# so a comment can appear anywhere whitespace can, without every rule needing
+# to account for it explicitly. Kept below `library_element_declaration`
+# deliberately: the generated parser's start rule defaults to the first rule
+# written in this file, and `library_element_declaration` is the only rule
+# that makes sense as "the thing this grammar parses" - putting `comment`
+# ahead of it would silently hijack the start rule.
+comment -> /\(\*([^*]|\*+[^*)])*\*+\)/
+	 | /\/\/[^\n]*/
+	 ;
+
+%extras /\s/, comment
+
+# B.3.1 Expressions
+
+expression -> xor_expression ('OR' xor_expression)*
+	    ;
+
+xor_expression -> and_expression ('XOR' and_expression)*
+		;
+
+and_expression -> comparison (('&'|'AND') comparison)*
+		;
+
+comparison -> equ_expression (('='|'<>') equ_expression)*
+	    ;
+
+
+equ_expression -> add_expression (comparison_operator add_expression)*
+		;
+
+comparison_operator -> '<' | '>' | '<=' | '>='
+		     ;
+
+add_expression -> term (add_operator term)*
+		;
+
+add_operator -> '+' | '-'
+	      ;
+
+term -> power_expression (multiply_operator power_expression)*
+      ;
+
+multiply_operator -> '*' | '/' | 'MOD'
+		   ;
+
+power_expression -> unary_expression ('**' unary_expression)*
+		  ;
+
+unary_expression -> unary_operator? primary_expression
+		  ;
+
+unary_operator -> '-' | 'NOT'
+		;
+
+primary_expression -> constant
+		    | enumerated_value
+		    | variable
+		    | '(' expression ')'
+		    | function_name '(' param_assignment (',' param_assignment)* ')'
+		    ;
+
+
+# B3.2 Statements
+
+statement_list -> (statement | ';')+
+		;
+
+# The ';' terminator lives inside `statement`, per alternative, so that
+# constructs already closed by their own END_* keyword (IF/CASE/FOR/WHILE/
+# REPEAT) can omit it - common in real-world PLC code - while everything
+# else keeps a mandatory ';': it's the only thing separating two of them
+# syntactically. A trailing ';' after an END_* construct is still accepted,
+# parsing as statement_list's bare-';' empty statement. EXIT is the one
+# iteration_statement with no closing keyword, so it carries its ';' there.
+statement -> assignment_statement ';'
+	   | subprogram_control_statement ';'
+	   | selection_statement
+	   | iteration_statement
+	   ;
+
+# B.3.2.1 Assignment Statements
+
+assignment_statement -> variable ':=' expression
+		      ;
+
+
+# B.3.2.2 Subprogram control statements
+
+subprogram_control_statement -> fb_invocation
+			      | 'RETURN'
+			      ;
+
+fb_invocation -> (identifier => fb_name) '(' (param_assignment (',' param_assignment)*)? ')'
+	       ;
+
+param_assignment -> (variable_name ':=')? expression
+		  | 'NOT'? variable_name '=>' variable
+		  ;
+
+# B.3.2.3 Selection Statements
+
+selection_statement -> if_statement
+		     | case_statement
+		     ;
+
+if_statement -> 'IF' expression 'THEN' statement_list _elsif* _else? 'END_IF'
+	      ;
+
+
+_elsif -> 'ELSIF' expression 'THEN' statement_list
+	;
+
+_else -> 'ELSE' statement_list
+       ;
+
+case_statement -> 'CASE' expression 'OF' case_element+ _else? 'END_CASE'
+		;
+
+case_element -> case_list ':' statement_list
+	      ;
+
+
+case_list -> case_list_element (',' case_list_element)*
+	   ;
+
+case_list_element -> subrange
+		   | signed_integer
+		   | enumerated_value
+		   | variable_name
+		   ;
+
+# B.3.2.4 Iteration Statements
+
+iteration_statement -> for_statement
+		     | while_statement
+		     | repeat_statement
+		     | exit_statement ';'
+		     ;
+
+for_statement -> 'FOR' control_variable ':=' for_list 'DO' statement_list 'END_FOR'
+	       ;
+
+control_variable -> identifier
+		  ;
+
+for_list -> expression 'TO' expression ('BY' expression)?
+	  ;
+
+while_statement -> 'WHILE' expression 'DO' statement_list 'END_WHILE'
+		 ;
+
+repeat_statement -> 'REPEAT' statement_list 'UNTIL' expression 'END_REPEAT'
+		  ;
+
+exit_statement -> 'EXIT'
+		;

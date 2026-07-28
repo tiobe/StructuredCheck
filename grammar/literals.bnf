@@ -1,0 +1,208 @@
+
+%include 'data_types.bnf'
+
+# B.1.1 Identifiers
+
+identifier -> /([A-Za-z]|_[A-Za-z0-9])(_?[A-Za-z0-9])*/
+	    ;
+
+# B.1.2 Constants
+
+constant -> numeric_literal
+	  | character_string
+	  | time_literal
+	  | bit_string_literal
+	  | boolean_literal
+	  ;
+
+# B.1.2.1 Numeric literals
+
+	 
+numeric_literal -> integer_literal
+		 | real_literal
+		 ;
+
+integer_literal -> (integer_type_name '#')? _integer_literal
+		 ;
+
+_integer_literal -> signed_integer
+		  | binary_integer
+		  | octal_integer
+		  | hex_integer
+		  ;
+
+# NOTE: the sign is folded into the regex (rather than `('+'|'-')? integer`)
+# so this is a single token. As two grammar symbols, the leading '-' would be
+# the same terminal `unary_operator` uses, and at a position like `IF -5`
+# the parser can't tell which production is consuming it - a genuine
+# parser-level ambiguity. As one token, tree-sitter's lexer resolves it by
+# longest match: `-5` (2 chars) wins over the lone `-` (1 char) wherever both
+# are valid, so `unary_operator` only ever sees a bare sign when no digits
+# immediately follow it.
+signed_integer -> /[+-]?[0-9](_?[0-9])*/
+		;
+
+integer -> /[0-9](_?[0-9])*/
+	 ;
+
+binary_integer -> '2#' /[01](_?[01])*/
+		;
+
+octal_integer -> '8#' /[0-7](_?[0-7])*/
+	       ;
+
+hex_integer -> '16#' /[0-9A-F](_?[0-9A-F])*/
+	     ;
+
+# FIXME: If spaces are possible around exponents, for instance, we need to check the regex
+# NOTE: sign folded into the regex, same reasoning as `signed_integer` above.
+real_literal -> (real_type_name '#')? /[+-]?[0-9](_?[0-9])*\.[0-9](_?[0-9])*([Ee][+-]?[0-9](_?[0-9])*)?/
+	      ;
+
+# NOTE: deviates from the IEC grammar, where the type prefix here is optional.
+# With it optional, an unprefixed integer is ambiguous between this rule and
+# signed_integer (both reduce a bare `integer` with nothing else), which the
+# IEC text only disambiguates via the semantics/context of the assignment
+# target - something this CFG can't express. We require the prefix so the
+# grammar stays unambiguous; recovering untagged bit-string literals, if
+# needed, has to happen in a later semantic/type-checking pass.
+bit_string_literal -> ('BYTE' | /[DL]?WORD/) '#' _unsigned_integer_literal
+		    ;
+
+_unsigned_integer_literal -> integer
+			   | binary_integer
+			   | octal_integer
+			   | hex_integer
+			   ;
+
+boolean_literal -> 'BOOL#'? /[10]/ | 'TRUE' | 'FALSE'
+		 ;
+
+		 
+# B.1.2.2 Character Strings
+
+# NOTE: deviates from the IEC grammar, which offers `character_string` here as
+# a choice between single_byte_character_string and double_byte_character_string
+# - both delimited the same way, with mostly-overlapping representation sets.
+# Even the escapes are ambiguous on their own: `$AAAA` is either one 4-digit
+# escape, or a 2-digit escape `$AA` followed by two literal characters 'A','A'
+# - so no amount of scanning tells single-byte from double-byte here. Which
+# one it is only becomes knowable once the target's declared type (STRING vs
+# WSTRING) is known - semantics/context, not this CFG. `single_byte_character_string`
+# and `double_byte_character_string` stay directly usable where a preceding
+# 'STRING'/'WSTRING' keyword already disambiguates (see variables.bnf); here,
+# with no such keyword around, we use one shared, unaliased rule and defer the
+# single/double-byte distinction to a later semantic pass.
+character_string -> "'" character_representation* "'"
+		  ;
+
+character_representation -> common_character_representation
+			  | "$'"
+			  | '"'
+			  | /\$[0-9A-F][0-9A-F]([0-9A-F][0-9A-F])?/
+			  ;
+
+single_byte_character_string -> "'" single_byte_character_representation* "'"
+			      ;
+
+double_byte_character_string -> "'" double_byte_character_representation* "'"
+			      ;
+
+single_byte_character_representation -> common_character_representation
+				      | "$'"
+				      | '"'
+				      | /\$[0-9A-F][0-9A-F]/
+				      ;
+
+double_byte_character_representation -> common_character_representation
+				      | "$'"
+				      | '"'
+				      | /\$[0-9A-F][0-9A-F][0-9A-F][0-9A-F]/
+				      ;
+
+common_character_representation -> _printable_character
+				 | /\$[$LNPRTlnprt]/
+				 ;
+
+# any printable character except '$', '"' or "'"
+_printable_character -> /[\x20-\x23\x25\x26\x28-\x7E\x80-\xFF]/
+		      ;
+		      
+
+# B.1.2.3 Time Literals
+
+time_literal -> duration
+	      | time_of_day
+	      | date
+	      | date_and_time
+	      ;
+
+# B.1.2.3.1 Duration
+
+duration -> /T(IME)?/ '#' '-'? interval
+	  ;
+
+interval -> days
+	  | hours
+	  | minutes
+	  | seconds
+	  | milliseconds
+	  ;
+
+days -> fixed_point 'd' | integer 'd' '_'? hours
+      ;
+
+fixed_point -> /[0-9]+(\.[0-9]+)?/
+	     ;
+
+hours -> fixed_point 'h' | integer 'h' '_'? minutes
+       ;
+
+minutes -> fixed_point 'm' | integer 'm' '_'? seconds
+	 ;
+
+seconds -> fixed_point 's' | integer 's' '_'? milliseconds
+	 ;
+
+milliseconds -> fixed_point 'ms'
+	      ;
+
+	      
+# B.1.2.3.2 Time of day and date
+
+time_of_day -> ('TIME_OF_DAY' | 'TOD') '#' daytime
+	     ;
+
+daytime -> day_hour ':' day_minute ':' day_second
+	 ;
+
+# FIXME: should we make regex to validate ranges?
+day_hour -> integer
+	  ;
+
+day_minute -> integer
+	    ;
+
+day_second -> fixed_point
+	    ;
+
+
+date -> /D(ATE)?/ '#' date_literal
+      ;
+
+date_literal -> year '-' month '-' day
+	      ;
+
+year -> integer
+      ;
+
+month -> integer
+       ;
+
+day -> integer
+     ;
+
+date_and_time -> ('DATE_AND_TIME' | 'DT') '#' date_literal '-' daytime
+	       ;
+
+	       

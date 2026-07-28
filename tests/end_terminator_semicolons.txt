@@ -1,0 +1,645 @@
+==================
+CASE without ';' after END_CASE (synthetic)
+==================
+
+PROGRAM prog
+	CASE state OF
+		0: out := 1;
+		1: out := 2;
+	ELSE
+		out := 0;
+	END_CASE
+END_PROGRAM
+
+---
+
+(library_element_declaration
+  (program_declaration
+    (program_type_name
+      (identifier))
+    (function_block_body
+      (statement_list
+        (statement
+          (selection_statement
+            (case_statement
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier))))))))))))))
+              (case_element
+                (case_list
+                  (case_list_element
+                    (signed_integer)))
+                (statement_list
+                  (statement
+                    (assignment_statement
+                      (variable
+                        (symbolic_variable
+                          (variable_name
+                            (identifier))))
+                      (expression
+                        (xor_expression
+                          (and_expression
+                            (comparison
+                              (equ_expression
+                                (add_expression
+                                  (term
+                                    (power_expression
+                                      (unary_expression
+                                        (primary_expression
+                                          (constant
+                                            (numeric_literal
+                                              (integer_literal
+                                                (signed_integer))))))))))))))))))
+              (case_element
+                (case_list
+                  (case_list_element
+                    (signed_integer)))
+                (statement_list
+                  (statement
+                    (assignment_statement
+                      (variable
+                        (symbolic_variable
+                          (variable_name
+                            (identifier))))
+                      (expression
+                        (xor_expression
+                          (and_expression
+                            (comparison
+                              (equ_expression
+                                (add_expression
+                                  (term
+                                    (power_expression
+                                      (unary_expression
+                                        (primary_expression
+                                          (constant
+                                            (numeric_literal
+                                              (integer_literal
+                                                (signed_integer))))))))))))))))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (numeric_literal
+                                            (integer_literal
+                                              (signed_integer))))))))))))))))))))))))
+
+==================
+WHILE without ';' after END_WHILE (synthetic)
+==================
+
+PROGRAM prog
+	WHILE i > 0 DO
+		i := i - 1;
+	END_WHILE
+END_PROGRAM
+
+---
+
+(library_element_declaration
+  (program_declaration
+    (program_type_name
+      (identifier))
+    (function_block_body
+      (statement_list
+        (statement
+          (iteration_statement
+            (while_statement
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier)))))))))
+                        (comparison_operator)
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (constant
+                                    (numeric_literal
+                                      (integer_literal
+                                        (signed_integer))))))))))))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (variable
+                                          (symbolic_variable
+                                            (variable_name
+                                              (identifier))))))))
+                                (add_operator)
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (numeric_literal
+                                            (integer_literal
+                                              (signed_integer))))))))))))))))))))))))
+
+==================
+REPEAT without ';' after END_REPEAT (synthetic)
+==================
+
+PROGRAM prog
+	REPEAT
+		i := i + 1;
+	UNTIL i >= 10
+	END_REPEAT
+END_PROGRAM
+
+---
+
+(library_element_declaration
+  (program_declaration
+    (program_type_name
+      (identifier))
+    (function_block_body
+      (statement_list
+        (statement
+          (iteration_statement
+            (repeat_statement
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (variable
+                                          (symbolic_variable
+                                            (variable_name
+                                              (identifier))))))))
+                                (add_operator)
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (numeric_literal
+                                            (integer_literal
+                                              (signed_integer)))))))))))))))))
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier)))))))))
+                        (comparison_operator)
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (constant
+                                    (numeric_literal
+                                      (integer_literal
+                                        (signed_integer)))))))))))))))))))))
+
+==================
+CASE, WHILE and REPEAT with trailing ';' kept (synthetic)
+==================
+
+PROGRAM prog
+	CASE state OF
+		0: out := 1;
+	END_CASE;
+	WHILE i > 0 DO
+		i := i - 1;
+	END_WHILE;
+	REPEAT
+		i := i + 1;
+	UNTIL i >= 10
+	END_REPEAT;
+END_PROGRAM
+
+---
+
+(library_element_declaration
+  (program_declaration
+    (program_type_name
+      (identifier))
+    (function_block_body
+      (statement_list
+        (statement
+          (selection_statement
+            (case_statement
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier))))))))))))))
+              (case_element
+                (case_list
+                  (case_list_element
+                    (signed_integer)))
+                (statement_list
+                  (statement
+                    (assignment_statement
+                      (variable
+                        (symbolic_variable
+                          (variable_name
+                            (identifier))))
+                      (expression
+                        (xor_expression
+                          (and_expression
+                            (comparison
+                              (equ_expression
+                                (add_expression
+                                  (term
+                                    (power_expression
+                                      (unary_expression
+                                        (primary_expression
+                                          (constant
+                                            (numeric_literal
+                                              (integer_literal
+                                                (signed_integer)))))))))))))))))))))
+        (statement
+          (iteration_statement
+            (while_statement
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier)))))))))
+                        (comparison_operator)
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (constant
+                                    (numeric_literal
+                                      (integer_literal
+                                        (signed_integer))))))))))))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (variable
+                                          (symbolic_variable
+                                            (variable_name
+                                              (identifier))))))))
+                                (add_operator)
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (numeric_literal
+                                            (integer_literal
+                                              (signed_integer))))))))))))))))))))
+        (statement
+          (iteration_statement
+            (repeat_statement
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (variable
+                                          (symbolic_variable
+                                            (variable_name
+                                              (identifier))))))))
+                                (add_operator)
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (numeric_literal
+                                            (integer_literal
+                                              (signed_integer)))))))))))))))))
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier)))))))))
+                        (comparison_operator)
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (constant
+                                    (numeric_literal
+                                      (integer_literal
+                                        (signed_integer)))))))))))))))))))))
+
+==================
+EXIT and RETURN keep their mandatory ';' (synthetic)
+==================
+
+PROGRAM prog
+	WHILE i > 0 DO
+		IF i = 5 THEN
+			EXIT;
+		END_IF
+		i := i - 1;
+	END_WHILE
+	RETURN;
+END_PROGRAM
+
+---
+
+(library_element_declaration
+  (program_declaration
+    (program_type_name
+      (identifier))
+    (function_block_body
+      (statement_list
+        (statement
+          (iteration_statement
+            (while_statement
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier)))))))))
+                        (comparison_operator)
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (constant
+                                    (numeric_literal
+                                      (integer_literal
+                                        (signed_integer))))))))))))))
+              (statement_list
+                (statement
+                  (selection_statement
+                    (if_statement
+                      (expression
+                        (xor_expression
+                          (and_expression
+                            (comparison
+                              (equ_expression
+                                (add_expression
+                                  (term
+                                    (power_expression
+                                      (unary_expression
+                                        (primary_expression
+                                          (variable
+                                            (symbolic_variable
+                                              (variable_name
+                                                (identifier))))))))))
+                              (equ_expression
+                                (add_expression
+                                  (term
+                                    (power_expression
+                                      (unary_expression
+                                        (primary_expression
+                                          (constant
+                                            (numeric_literal
+                                              (integer_literal
+                                                (signed_integer))))))))))))))
+                      (statement_list
+                        (statement
+                          (iteration_statement
+                            (exit_statement)))))))
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (variable
+                                          (symbolic_variable
+                                            (variable_name
+                                              (identifier))))))))
+                                (add_operator)
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (numeric_literal
+                                            (integer_literal
+                                              (signed_integer))))))))))))))))))))
+        (statement
+          (subprogram_control_statement))))))
+
+==================
+Omitted ';' after END_IF mid-list, followed by an assignment (synthetic)
+==================
+
+PROGRAM prog
+	IF i > 0 THEN
+		out := 1;
+	END_IF
+	out := 2;
+END_PROGRAM
+
+---
+
+(library_element_declaration
+  (program_declaration
+    (program_type_name
+      (identifier))
+    (function_block_body
+      (statement_list
+        (statement
+          (selection_statement
+            (if_statement
+              (expression
+                (xor_expression
+                  (and_expression
+                    (comparison
+                      (equ_expression
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (variable
+                                    (symbolic_variable
+                                      (variable_name
+                                        (identifier)))))))))
+                        (comparison_operator)
+                        (add_expression
+                          (term
+                            (power_expression
+                              (unary_expression
+                                (primary_expression
+                                  (constant
+                                    (numeric_literal
+                                      (integer_literal
+                                        (signed_integer))))))))))))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable
+                      (symbolic_variable
+                        (variable_name
+                          (identifier))))
+                    (expression
+                      (xor_expression
+                        (and_expression
+                          (comparison
+                            (equ_expression
+                              (add_expression
+                                (term
+                                  (power_expression
+                                    (unary_expression
+                                      (primary_expression
+                                        (constant
+                                          (numeric_literal
+                                            (integer_literal
+                                              (signed_integer))))))))))))))))))))
+        (statement
+          (assignment_statement
+            (variable
+              (symbolic_variable
+                (variable_name
+                  (identifier))))
+            (expression
+              (xor_expression
+                (and_expression
+                  (comparison
+                    (equ_expression
+                      (add_expression
+                        (term
+                          (power_expression
+                            (unary_expression
+                              (primary_expression
+                                (constant
+                                  (numeric_literal
+                                    (integer_literal
+                                      (signed_integer))))))))))))))))))))

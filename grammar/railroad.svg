@@ -1,0 +1,1238 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="railroad" viewBox="0 0 1006 3378">
+<style>svg.railroad {
+background-color: hsl(30, 20%, 95%);
+background-size: 15px 15px;
+background-image: linear-gradient(to right, rgba(30, 30, 30, .05) 1px, transparent 1px),
+		  linear-gradient(to bottom, rgba(30, 30, 30, .05) 1px, transparent 1px);
+}
+
+svg.railroad rect.railroad_canvas {
+stroke-width: 0px;
+fill: none;
+}
+
+svg.railroad path {
+stroke-width: 3px;
+stroke: black;
+fill: none;
+}
+
+svg.railroad .debug {
+stroke-width: 1px;
+stroke: red;
+}
+
+svg.railroad text {
+font: 14px monospace;
+text-anchor: middle;
+}
+
+svg.railroad .nonterminal text {
+font-weight: bold;
+}
+
+svg.railroad text.comment {
+font: italic 12px monospace;
+}
+
+svg.railroad rect {
+stroke-width: 3px;
+stroke: black;
+fill:hsl(-290, 70%, 90%);
+}
+
+svg.railroad g.labeledbox > rect {
+stroke-width: 1px;
+stroke: grey;
+stroke-dasharray: 5px;
+fill:rgba(90, 90, 150, .1);
+}
+</style>
+<rect width="100%" height="100%" class="railroad_canvas"/>
+<g id="rule-bit_datatype" transform="translate(0, 0)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">bit_datatype</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 21 h 24 m 68 0 h 32"/>
+<g class="terminal">
+<rect x="59" y="10" height="22" width="68" rx="10" ry="10"/>
+<text x="93" y="26">
+&#x27;BOOL&#x27;</text>
+</g>
+<path d=" M 35 21 a 12 12 0 0 1 12 12 v 9 m 100 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 42 v 33 m 100 0 v -33"/>
+<path d=" M 47 75 v 33 m 100 0 v -33"/>
+<path d=" M 47 42 v 0 a 12 12 0 0 0 12 12 m 68 0 h 8 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="59" y="43" height="22" width="68" rx="10" ry="10"/>
+<text x="93" y="59">
+&#x27;BYTE&#x27;</text>
+</g>
+<path d=" M 47 75 v 0 a 12 12 0 0 0 12 12 m 68 0 h 8 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="59" y="76" height="22" width="68" rx="10" ry="10"/>
+<text x="93" y="92">
+&#x27;WORD&#x27;</text>
+</g>
+<path d=" M 47 108 v 0 a 12 12 0 0 0 12 12 m 76 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="59" y="109" height="22" width="76" rx="10" ry="10"/>
+<text x="97" y="125">
+&#x27;DWORD&#x27;</text>
+</g>
+</g>
+<path d=" M 169 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 159 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-integer_datatype" transform="translate(0, 181)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">integer_datatype</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="terminal">
+<rect x="35" y="10" height="22" width="116" rx="10" ry="10"/>
+<text x="93" y="26">
+/U?[DS]?INT/</text>
+</g>
+<path d=" M 161 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 151 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-float_datatype" transform="translate(0, 263)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">float_datatype</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="terminal">
+<rect x="35" y="10" height="22" width="84" rx="10" ry="10"/>
+<text x="77" y="26">
+/L?REAL/</text>
+</g>
+<path d=" M 129 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 119 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-literal" transform="translate(0, 345)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">literal</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 21 h 24 m 76 0 h 160 m -77 0 l -5 -5 m 0 10 l 5 -5 m 77 0"/>
+<a xlink:href="#rule-integer" class="link">
+<g class="nonterminal">
+<rect x="59" y="10" height="22" width="76"/>
+<text x="97" y="26">
+integer</text>
+</g>
+</a>
+<path d=" M 35 21 a 12 12 0 0 1 12 12 v 9 m 236 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 42 v 33 m 236 0 v -33"/>
+<path d=" M 47 75 v 33 m 236 0 v -33"/>
+<path d=" M 47 42 v 0 a 12 12 0 0 0 12 12 m 212 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-floating_pointer_number" class="link">
+<g class="nonterminal">
+<rect x="59" y="43" height="22" width="212"/>
+<text x="165" y="59">
+floating_pointer_number</text>
+</g>
+</a>
+<path d=" M 47 75 v 0 a 12 12 0 0 0 12 12 m 116 0 h 96 m -45 0 l -5 -5 m 0 10 l 5 -5 m 45 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-time_literal" class="link">
+<g class="nonterminal">
+<rect x="59" y="76" height="22" width="116"/>
+<text x="117" y="92">
+time_literal</text>
+</g>
+</a>
+<path d=" M 47 108 v 0 a 12 12 0 0 0 12 12 m 148 0 h 64 m -29 0 l -5 -5 m 0 10 l 5 -5 m 29 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-character_string" class="link">
+<g class="nonterminal">
+<rect x="59" y="109" height="22" width="148"/>
+<text x="133" y="125">
+character_string</text>
+</g>
+</a>
+</g>
+<path d=" M 305 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 295 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-integer" transform="translate(0, 526)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">integer</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="optional">
+<path d=" M 35 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 92 m -43 0 l -5 -5 m 0 10 l 5 -5 m 43 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_datatype" class="link">
+<g class="nonterminal">
+<rect x="59" y="23" height="22" width="92"/>
+<text x="105" y="39">
+_datatype</text>
+</g>
+</a>
+</g>
+<g class="choice">
+<path d=" M 185 34 h 24 m 338 0 h 24"/>
+<g class="sequence">
+<g class="optional">
+<path d=" M 209 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 92 m -43 0 l -5 -5 m 0 10 l 5 -5 m 43 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="choice">
+<path d=" M 233 34 h 24 m 44 0 h 24"/>
+<g class="terminal">
+<rect x="257" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="279" y="39">
+&#x27;+&#x27;</text>
+</g>
+<path d=" M 233 34 a 12 12 0 0 1 12 12 v 9 m 68 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 245 55 v 0 a 12 12 0 0 0 12 12 m 44 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="257" y="56" height="22" width="44" rx="10" ry="10"/>
+<text x="279" y="72">
+&#x27;-&#x27;</text>
+</g>
+</g>
+</g>
+<a xlink:href="#rule-decimal_digit_string" class="link">
+<g class="nonterminal">
+<rect x="359" y="23" height="22" width="188"/>
+<text x="453" y="39">
+decimal_digit_string</text>
+</g>
+</a>
+<path d=" M 349 34 h 10"/>
+</g>
+<path d=" M 185 34 a 12 12 0 0 1 12 12 v 42 m 362 0 v -42 a 12 12 0 0 1 12 -12"/>
+<path d=" M 197 88 v 33 m 362 0 v -33"/>
+<path d=" M 197 121 v 33 m 362 0 v -33"/>
+<path d=" M 197 88 v 0 a 12 12 0 0 0 12 12 m 172 0 h 166 m -80 0 l -5 -5 m 0 10 l 5 -5 m 80 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-binary_digit_string" class="link">
+<g class="nonterminal">
+<rect x="209" y="89" height="22" width="172"/>
+<text x="295" y="105">
+binary_digit_string</text>
+</g>
+</a>
+<path d=" M 197 121 v 0 a 12 12 0 0 0 12 12 m 164 0 h 174 m -84 0 l -5 -5 m 0 10 l 5 -5 m 84 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-octal_digit_string" class="link">
+<g class="nonterminal">
+<rect x="209" y="122" height="22" width="164"/>
+<text x="291" y="138">
+octal_digit_string</text>
+</g>
+</a>
+<path d=" M 197 154 v 0 a 12 12 0 0 0 12 12 m 148 0 h 190 m -92 0 l -5 -5 m 0 10 l 5 -5 m 92 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-hex_digit_string" class="link">
+<g class="nonterminal">
+<rect x="209" y="155" height="22" width="148"/>
+<text x="283" y="171">
+hex_digit_string</text>
+</g>
+</a>
+</g>
+<path d=" M 175 34 h 10"/>
+</g>
+<path d=" M 581 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 571 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-decimal_digit_string" transform="translate(0, 753)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">decimal_digit_string</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="terminal">
+<rect x="35" y="10" height="22" width="164" rx="10" ry="10"/>
+<text x="117" y="26">
+/[0-9]+(_[0-9]+)*/</text>
+</g>
+<path d=" M 209 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 199 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-binary_digit_string" transform="translate(0, 835)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">binary_digit_string</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="52" rx="10" ry="10"/>
+<text x="61" y="26">
+&#x27;2#&#x27;</text>
+</g>
+<g class="terminal">
+<rect x="97" y="10" height="22" width="148" rx="10" ry="10"/>
+<text x="171" y="26">
+/[01]+(_[01]+)*/</text>
+</g>
+<path d=" M 87 21 h 10"/>
+</g>
+<path d=" M 255 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 245 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-octal_digit_string" transform="translate(0, 917)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">octal_digit_string</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="52" rx="10" ry="10"/>
+<text x="61" y="26">
+&#x27;8#&#x27;</text>
+</g>
+<g class="terminal">
+<rect x="97" y="10" height="22" width="164" rx="10" ry="10"/>
+<text x="179" y="26">
+/[0-7]+(_[0-7]+)*/</text>
+</g>
+<path d=" M 87 21 h 10"/>
+</g>
+<path d=" M 271 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 261 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-hex_digit_string" transform="translate(0, 999)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">hex_digit_string</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="60" rx="10" ry="10"/>
+<text x="65" y="26">
+&#x27;16#&#x27;</text>
+</g>
+<g class="terminal">
+<rect x="105" y="10" height="22" width="220" rx="10" ry="10"/>
+<text x="215" y="26">
+/[0-9A-F]+(_[0-9A-F]+)*/</text>
+</g>
+<path d=" M 95 21 h 10"/>
+</g>
+<path d=" M 335 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 325 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-floating_pointer_number" transform="translate(0, 1081)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">floating_pointer_number</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="optional">
+<path d=" M 35 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 186 m -90 0 l -5 -5 m 0 10 l 5 -5 m 90 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="sequence">
+<a xlink:href="#rule-float_datatype" class="link">
+<g class="nonterminal">
+<rect x="59" y="23" height="22" width="132"/>
+<text x="125" y="39">
+float_datatype</text>
+</g>
+</a>
+<g class="terminal">
+<rect x="201" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="223" y="39">
+&#x27;#&#x27;</text>
+</g>
+<path d=" M 191 34 h 10"/>
+</g>
+</g>
+<g class="optional">
+<path d=" M 279 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 92 m -43 0 l -5 -5 m 0 10 l 5 -5 m 43 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="choice">
+<path d=" M 303 34 h 24 m 44 0 h 24"/>
+<g class="terminal">
+<rect x="327" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="349" y="39">
+&#x27;+&#x27;</text>
+</g>
+<path d=" M 303 34 a 12 12 0 0 1 12 12 v 9 m 68 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 315 55 v 0 a 12 12 0 0 0 12 12 m 44 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="327" y="56" height="22" width="44" rx="10" ry="10"/>
+<text x="349" y="72">
+&#x27;-&#x27;</text>
+</g>
+</g>
+</g>
+<a xlink:href="#rule-decimal_digit_string" class="link">
+<g class="nonterminal">
+<rect x="429" y="23" height="22" width="188"/>
+<text x="523" y="39">
+decimal_digit_string</text>
+</g>
+</a>
+<g class="sequence">
+<g class="terminal">
+<rect x="627" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="649" y="39">
+&#x27;.&#x27;</text>
+</g>
+<a xlink:href="#rule-decimal_digit_string" class="link">
+<g class="nonterminal">
+<rect x="681" y="23" height="22" width="188"/>
+<text x="775" y="39">
+decimal_digit_string</text>
+</g>
+</a>
+<path d=" M 671 34 h 10"/>
+</g>
+<a xlink:href="#rule-_exponent" class="link">
+<g class="nonterminal">
+<rect x="879" y="23" height="22" width="92"/>
+<text x="925" y="39">
+_exponent</text>
+</g>
+</a>
+<path d=" M 269 34 h 10"/>
+<path d=" M 419 34 h 10"/>
+<path d=" M 617 34 h 10"/>
+<path d=" M 869 34 h 10"/>
+</g>
+<path d=" M 981 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 971 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-time_literal" transform="translate(0, 1209)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">time_literal</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 21 h 24 m 52 0 h 96 m -45 0 l -5 -5 m 0 10 l 5 -5 m 45 0"/>
+<a xlink:href="#rule-date" class="link">
+<g class="nonterminal">
+<rect x="59" y="10" height="22" width="52"/>
+<text x="85" y="26">
+date</text>
+</g>
+</a>
+<path d=" M 35 21 a 12 12 0 0 1 12 12 v 9 m 148 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 42 v 33 m 148 0 v -33"/>
+<path d=" M 47 75 v 33 m 148 0 v -33"/>
+<path d=" M 47 42 v 0 a 12 12 0 0 0 12 12 m 108 0 h 16 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-time_of_day" class="link">
+<g class="nonterminal">
+<rect x="59" y="43" height="22" width="108"/>
+<text x="113" y="59">
+time_of_day</text>
+</g>
+</a>
+<path d=" M 47 75 v 0 a 12 12 0 0 0 12 12 m 124 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-date_and_time" class="link">
+<g class="nonterminal">
+<rect x="59" y="76" height="22" width="124"/>
+<text x="121" y="92">
+date_and_time</text>
+</g>
+</a>
+<path d=" M 47 108 v 0 a 12 12 0 0 0 12 12 m 84 0 h 40 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-duration" class="link">
+<g class="nonterminal">
+<rect x="59" y="109" height="22" width="84"/>
+<text x="101" y="125">
+duration</text>
+</g>
+</a>
+</g>
+<path d=" M 217 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 207 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-date" transform="translate(0, 1390)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">date</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="100" rx="10" ry="10"/>
+<text x="85" y="26">
+/D(ATE)?#/</text>
+</g>
+<a xlink:href="#rule-date_information" class="link">
+<g class="nonterminal">
+<rect x="145" y="10" height="22" width="148"/>
+<text x="219" y="26">
+date_information</text>
+</g>
+</a>
+<path d=" M 135 21 h 10"/>
+</g>
+<path d=" M 303 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 293 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-duration" transform="translate(0, 1472)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">duration</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="100" rx="10" ry="10"/>
+<text x="85" y="26">
+/T(IME)?#/</text>
+</g>
+<g class="choice">
+<path d=" M 145 21 h 24 m 204 0 h 396 m -195 0 l -5 -5 m 0 10 l 5 -5 m 195 0"/>
+<a xlink:href="#rule-decimal_representation" class="link">
+<g class="nonterminal">
+<rect x="169" y="10" height="22" width="204"/>
+<text x="271" y="26">
+decimal_representation</text>
+</g>
+</a>
+<path d=" M 145 21 a 12 12 0 0 1 12 12 v 9 m 600 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 157 42 v 12 a 12 12 0 0 0 12 12 m 576 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
+<g class="sequence">
+<a xlink:href="#rule-sequence_representation" class="link">
+<g class="nonterminal">
+<rect x="169" y="55" height="22" width="212"/>
+<text x="275" y="71">
+sequence_representation</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 391 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect x="415" y="55" height="22" width="44" rx="10" ry="10"/>
+<text x="437" y="71">
+&#x27;_&#x27;</text>
+</g>
+</g>
+<g class="optional">
+<path d=" M 493 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 204 m -99 0 l -5 -5 m 0 10 l 5 -5 m 99 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-decimal_representation" class="link">
+<g class="nonterminal">
+<rect x="517" y="55" height="22" width="204"/>
+<text x="619" y="71">
+decimal_representation</text>
+</g>
+</a>
+</g>
+<path d=" M 381 66 h 10"/>
+<path d=" M 483 66 h 10"/>
+</g>
+</g>
+<path d=" M 135 21 h 10"/>
+</g>
+<path d=" M 779 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 769 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-time_of_day" transform="translate(0, 1599)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">time_of_day</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="188" rx="10" ry="10"/>
+<text x="129" y="26">
+/(TIME_OF_DAY|TOD)#/</text>
+</g>
+<a xlink:href="#rule-time_of_day_information" class="link">
+<g class="nonterminal">
+<rect x="233" y="10" height="22" width="212"/>
+<text x="339" y="26">
+time_of_day_information</text>
+</g>
+</a>
+<path d=" M 223 21 h 10"/>
+</g>
+<path d=" M 455 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 445 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-date_and_time" transform="translate(0, 1681)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">date_and_time</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="196" rx="10" ry="10"/>
+<text x="133" y="26">
+/(DATE_AND_TIME|DT)#/</text>
+</g>
+<a xlink:href="#rule-date_information" class="link">
+<g class="nonterminal">
+<rect x="241" y="10" height="22" width="148"/>
+<text x="315" y="26">
+date_information</text>
+</g>
+</a>
+<g class="terminal">
+<rect x="399" y="10" height="22" width="44" rx="10" ry="10"/>
+<text x="421" y="26">
+&#x27;-&#x27;</text>
+</g>
+<a xlink:href="#rule-time_of_day_information" class="link">
+<g class="nonterminal">
+<rect x="453" y="10" height="22" width="212"/>
+<text x="559" y="26">
+time_of_day_information</text>
+</g>
+</a>
+<path d=" M 231 21 h 10"/>
+<path d=" M 389 21 h 10"/>
+<path d=" M 443 21 h 10"/>
+</g>
+<path d=" M 675 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 665 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-date_information" transform="translate(0, 1763)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">date_information</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="terminal">
+<rect x="35" y="10" height="22" width="388" rx="10" ry="10"/>
+<text x="229" y="26">
+/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/</text>
+</g>
+<path d=" M 433 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 423 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-time_of_day_information" transform="translate(0, 1845)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">time_of_day_information</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="terminal">
+<rect x="35" y="10" height="22" width="596" rx="10" ry="10"/>
+<text x="333" y="26">
+/([0-9]|1[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9](\.[0-9][0-9]?[0-9]?)?/</text>
+</g>
+<path d=" M 641 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 631 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-sequence_representation" transform="translate(0, 1927)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">sequence_representation</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 34 h 24 m 652 0 h 24"/>
+<g class="sequence">
+<a xlink:href="#rule-_days" class="link">
+<g class="nonterminal">
+<rect x="59" y="23" height="22" width="60"/>
+<text x="89" y="39">
+_days</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 129 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 68 m -31 0 l -5 -5 m 0 10 l 5 -5 m 31 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_hours" class="link">
+<g class="nonterminal">
+<rect x="153" y="23" height="22" width="68"/>
+<text x="187" y="39">
+_hours</text>
+</g>
+</a>
+</g>
+<g class="optional">
+<path d=" M 255 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 84 m -39 0 l -5 -5 m 0 10 l 5 -5 m 39 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_minutes" class="link">
+<g class="nonterminal">
+<rect x="279" y="23" height="22" width="84"/>
+<text x="321" y="39">
+_minutes</text>
+</g>
+</a>
+</g>
+<g class="optional">
+<path d=" M 397 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 84 m -39 0 l -5 -5 m 0 10 l 5 -5 m 39 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_seconds" class="link">
+<g class="nonterminal">
+<rect x="421" y="23" height="22" width="84"/>
+<text x="463" y="39">
+_seconds</text>
+</g>
+</a>
+</g>
+<g class="optional">
+<path d=" M 539 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_milliseconds" class="link">
+<g class="nonterminal">
+<rect x="563" y="23" height="22" width="124"/>
+<text x="625" y="39">
+_milliseconds</text>
+</g>
+</a>
+</g>
+<path d=" M 119 34 h 10"/>
+<path d=" M 245 34 h 10"/>
+<path d=" M 387 34 h 10"/>
+<path d=" M 529 34 h 10"/>
+</g>
+<path d=" M 35 34 a 12 12 0 0 1 12 12 v 9 m 676 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 67 v 33 m 676 0 v -33"/>
+<path d=" M 47 112 v 33 m 676 0 v -33"/>
+<path d=" M 47 157 v 33 m 676 0 v -33"/>
+<path d=" M 47 55 v 12 a 12 12 0 0 0 12 12 m 534 0 h 118 m -56 0 l -5 -5 m 0 10 l 5 -5 m 56 0 a 12 12 0 0 0 12 -12 v -12"/>
+<g class="sequence">
+<a xlink:href="#rule-_hours" class="link">
+<g class="nonterminal">
+<rect x="59" y="68" height="22" width="68"/>
+<text x="93" y="84">
+_hours</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 137 79 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 84 m -39 0 l -5 -5 m 0 10 l 5 -5 m 39 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_minutes" class="link">
+<g class="nonterminal">
+<rect x="161" y="68" height="22" width="84"/>
+<text x="203" y="84">
+_minutes</text>
+</g>
+</a>
+</g>
+<g class="optional">
+<path d=" M 279 79 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 84 m -39 0 l -5 -5 m 0 10 l 5 -5 m 39 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_seconds" class="link">
+<g class="nonterminal">
+<rect x="303" y="68" height="22" width="84"/>
+<text x="345" y="84">
+_seconds</text>
+</g>
+</a>
+</g>
+<g class="optional">
+<path d=" M 421 79 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_milliseconds" class="link">
+<g class="nonterminal">
+<rect x="445" y="68" height="22" width="124"/>
+<text x="507" y="84">
+_milliseconds</text>
+</g>
+</a>
+</g>
+<path d=" M 127 79 h 10"/>
+<path d=" M 269 79 h 10"/>
+<path d=" M 411 79 h 10"/>
+</g>
+<path d=" M 47 100 v 12 a 12 12 0 0 0 12 12 m 408 0 h 244 m -119 0 l -5 -5 m 0 10 l 5 -5 m 119 0 a 12 12 0 0 0 12 -12 v -12"/>
+<g class="sequence">
+<a xlink:href="#rule-_minutes" class="link">
+<g class="nonterminal">
+<rect x="59" y="113" height="22" width="84"/>
+<text x="101" y="129">
+_minutes</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 153 124 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 84 m -39 0 l -5 -5 m 0 10 l 5 -5 m 39 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_seconds" class="link">
+<g class="nonterminal">
+<rect x="177" y="113" height="22" width="84"/>
+<text x="219" y="129">
+_seconds</text>
+</g>
+</a>
+</g>
+<g class="optional">
+<path d=" M 295 124 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_milliseconds" class="link">
+<g class="nonterminal">
+<rect x="319" y="113" height="22" width="124"/>
+<text x="381" y="129">
+_milliseconds</text>
+</g>
+</a>
+</g>
+<path d=" M 143 124 h 10"/>
+<path d=" M 285 124 h 10"/>
+</g>
+<path d=" M 47 145 v 12 a 12 12 0 0 0 12 12 m 266 0 h 386 m -190 0 l -5 -5 m 0 10 l 5 -5 m 190 0 a 12 12 0 0 0 12 -12 v -12"/>
+<g class="sequence">
+<a xlink:href="#rule-_seconds" class="link">
+<g class="nonterminal">
+<rect x="59" y="158" height="22" width="84"/>
+<text x="101" y="174">
+_seconds</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 153 169 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-_milliseconds" class="link">
+<g class="nonterminal">
+<rect x="177" y="158" height="22" width="124"/>
+<text x="239" y="174">
+_milliseconds</text>
+</g>
+</a>
+</g>
+<path d=" M 143 169 h 10"/>
+</g>
+<path d=" M 47 190 v 0 a 12 12 0 0 0 12 12 m 124 0 h 528 m -261 0 l -5 -5 m 0 10 l 5 -5 m 261 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-_milliseconds" class="link">
+<g class="nonterminal">
+<rect x="59" y="191" height="22" width="124"/>
+<text x="121" y="207">
+_milliseconds</text>
+</g>
+</a>
+</g>
+<path d=" M 745 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 735 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-_days" transform="translate(0, 2190)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">_days</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<a xlink:href="#rule-decimal_digit_string" class="link">
+<g class="nonterminal">
+<rect x="35" y="23" height="22" width="188"/>
+<text x="129" y="39">
+decimal_digit_string</text>
+</g>
+</a>
+<g class="terminal">
+<rect x="233" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="255" y="39">
+&#x27;d&#x27;</text>
+</g>
+<g class="optional">
+<path d=" M 287 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect x="311" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="333" y="39">
+&#x27;_&#x27;</text>
+</g>
+</g>
+<path d=" M 223 34 h 10"/>
+<path d=" M 277 34 h 10"/>
+</g>
+<path d=" M 389 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 379 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-_hours" transform="translate(0, 2285)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">_hours</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="23" height="22" width="172" rx="10" ry="10"/>
+<text x="121" y="39">
+/[01]?[0-9]|2[0-3]/</text>
+</g>
+<g class="terminal">
+<rect x="217" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="239" y="39">
+&#x27;h&#x27;</text>
+</g>
+<g class="optional">
+<path d=" M 271 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect x="295" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="317" y="39">
+&#x27;_&#x27;</text>
+</g>
+</g>
+<path d=" M 207 34 h 10"/>
+<path d=" M 261 34 h 10"/>
+</g>
+<path d=" M 373 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 363 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-_minutes" transform="translate(0, 2380)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">_minutes</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="23" height="22" width="124" rx="10" ry="10"/>
+<text x="97" y="39">
+/[0-5]?[0-9]/</text>
+</g>
+<g class="terminal">
+<rect x="169" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="191" y="39">
+&#x27;m&#x27;</text>
+</g>
+<g class="optional">
+<path d=" M 223 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect x="247" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="269" y="39">
+&#x27;_&#x27;</text>
+</g>
+</g>
+<path d=" M 159 34 h 10"/>
+<path d=" M 213 34 h 10"/>
+</g>
+<path d=" M 325 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 315 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-_seconds" transform="translate(0, 2475)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">_seconds</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="23" height="22" width="124" rx="10" ry="10"/>
+<text x="97" y="39">
+/[0-5]?[0-9]/</text>
+</g>
+<g class="terminal">
+<rect x="169" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="191" y="39">
+&#x27;s&#x27;</text>
+</g>
+<g class="optional">
+<path d=" M 223 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect x="247" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="269" y="39">
+&#x27;_&#x27;</text>
+</g>
+</g>
+<path d=" M 159 34 h 10"/>
+<path d=" M 213 34 h 10"/>
+</g>
+<path d=" M 325 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 315 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-_milliseconds" transform="translate(0, 2570)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">_milliseconds</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect x="35" y="10" height="22" width="172" rx="10" ry="10"/>
+<text x="121" y="26">
+/[0-9][0-9]?[0-9]?/</text>
+</g>
+<g class="terminal">
+<rect x="217" y="10" height="22" width="52" rx="10" ry="10"/>
+<text x="243" y="26">
+&#x27;ms&#x27;</text>
+</g>
+<path d=" M 207 21 h 10"/>
+</g>
+<path d=" M 279 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 269 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-decimal_representation" transform="translate(0, 2652)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">decimal_representation</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<a xlink:href="#rule-decimal_digit_string" class="link">
+<g class="nonterminal">
+<rect x="35" y="23" height="22" width="188"/>
+<text x="129" y="39">
+decimal_digit_string</text>
+</g>
+</a>
+<g class="terminal">
+<rect x="233" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="255" y="39">
+&#x27;.&#x27;</text>
+</g>
+<g class="optional">
+<path d=" M 287 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 204 m -99 0 l -5 -5 m 0 10 l 5 -5 m 99 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a xlink:href="#rule-decimal_representation" class="link">
+<g class="nonterminal">
+<rect x="311" y="23" height="22" width="204"/>
+<text x="413" y="39">
+decimal_representation</text>
+</g>
+</a>
+</g>
+<g class="choice">
+<path d=" M 549 34 h 24 m 44 0 h 32"/>
+<g class="terminal">
+<rect x="573" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="595" y="39">
+&#x27;d&#x27;</text>
+</g>
+<path d=" M 549 34 a 12 12 0 0 1 12 12 v 9 m 76 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 561 55 v 33 m 76 0 v -33"/>
+<path d=" M 561 88 v 33 m 76 0 v -33"/>
+<path d=" M 561 121 v 33 m 76 0 v -33"/>
+<path d=" M 561 55 v 0 a 12 12 0 0 0 12 12 m 44 0 h 8 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="573" y="56" height="22" width="44" rx="10" ry="10"/>
+<text x="595" y="72">
+&#x27;h&#x27;</text>
+</g>
+<path d=" M 561 88 v 0 a 12 12 0 0 0 12 12 m 44 0 h 8 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="573" y="89" height="22" width="44" rx="10" ry="10"/>
+<text x="595" y="105">
+&#x27;m&#x27;</text>
+</g>
+<path d=" M 561 121 v 0 a 12 12 0 0 0 12 12 m 44 0 h 8 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="573" y="122" height="22" width="44" rx="10" ry="10"/>
+<text x="595" y="138">
+&#x27;s&#x27;</text>
+</g>
+<path d=" M 561 154 v 0 a 12 12 0 0 0 12 12 m 52 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="573" y="155" height="22" width="52" rx="10" ry="10"/>
+<text x="599" y="171">
+&#x27;ms&#x27;</text>
+</g>
+</g>
+<path d=" M 223 34 h 10"/>
+<path d=" M 277 34 h 10"/>
+<path d=" M 539 34 h 10"/>
+</g>
+<path d=" M 659 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 649 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-character_string" transform="translate(0, 2879)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">character_string</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="optional">
+<path d=" M 35 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 92 m -43 0 l -5 -5 m 0 10 l 5 -5 m 43 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect x="59" y="23" height="22" width="92" rx="10" ry="10"/>
+<text x="105" y="39">
+&#x27;STRING#&#x27;</text>
+</g>
+</g>
+<g class="terminal">
+<rect x="185" y="23" height="22" width="52" rx="10" ry="10"/>
+<text x="211" y="39">
+&#x27;\&#x27;&#x27;</text>
+</g>
+<g class="optional">
+<path d=" M 247 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="repeat">
+<path d=" M 271 34 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<g>
+</g>
+<a xlink:href="#rule-characters" class="link">
+<g class="nonterminal">
+<rect x="283" y="23" height="22" width="100"/>
+<text x="333" y="39">
+characters</text>
+</g>
+</a>
+</g>
+</g>
+<g class="terminal">
+<rect x="429" y="23" height="22" width="52" rx="10" ry="10"/>
+<text x="455" y="39">
+&#x27;\&#x27;&#x27;</text>
+</g>
+<path d=" M 175 34 h 10"/>
+<path d=" M 237 34 h 10"/>
+<path d=" M 419 34 h 10"/>
+</g>
+<path d=" M 491 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 481 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-characters" transform="translate(0, 2987)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">characters</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 21 h 24 m 172 0 h 192 m -93 0 l -5 -5 m 0 10 l 5 -5 m 93 0"/>
+<g class="terminal">
+<rect x="59" y="10" height="22" width="172" rx="10" ry="10"/>
+<text x="145" y="26">
+/$[0-9A-F][0-9A-F]/</text>
+</g>
+<path d=" M 35 21 a 12 12 0 0 1 12 12 v 9 m 364 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 42 v 33 m 364 0 v -33"/>
+<path d=" M 47 42 v 0 a 12 12 0 0 0 12 12 m 340 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="59" y="43" height="22" width="340" rx="10" ry="10"/>
+<text x="229" y="59">
+/[\x20-\x23\x25\x26\x28-\x7E\x80-\xFF]/</text>
+</g>
+<path d=" M 47 75 v 0 a 12 12 0 0 0 12 12 m 156 0 h 184 m -89 0 l -5 -5 m 0 10 l 5 -5 m 89 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="59" y="76" height="22" width="156" rx="10" ry="10"/>
+<text x="137" y="92">
+/$[&#x27;$LINnPpRrTt]/</text>
+</g>
+</g>
+<path d=" M 433 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 423 21 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-_exponent" transform="translate(0, 3135)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">_exponent</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 34 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="choice">
+<path d=" M 35 34 h 24 m 44 0 h 24"/>
+<g class="terminal">
+<rect x="59" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="81" y="39">
+&#x27;E&#x27;</text>
+</g>
+<path d=" M 35 34 a 12 12 0 0 1 12 12 v 9 m 68 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 55 v 0 a 12 12 0 0 0 12 12 m 44 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="59" y="56" height="22" width="44" rx="10" ry="10"/>
+<text x="81" y="72">
+&#x27;e&#x27;</text>
+</g>
+</g>
+<g class="optional">
+<path d=" M 137 34 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 92 m -43 0 l -5 -5 m 0 10 l 5 -5 m 43 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="choice">
+<path d=" M 161 34 h 24 m 44 0 h 24"/>
+<g class="terminal">
+<rect x="185" y="23" height="22" width="44" rx="10" ry="10"/>
+<text x="207" y="39">
+&#x27;+&#x27;</text>
+</g>
+<path d=" M 161 34 a 12 12 0 0 1 12 12 v 9 m 68 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 173 55 v 0 a 12 12 0 0 0 12 12 m 44 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect x="185" y="56" height="22" width="44" rx="10" ry="10"/>
+<text x="207" y="72">
+&#x27;-&#x27;</text>
+</g>
+</g>
+</g>
+<a xlink:href="#rule-decimal_digit_string" class="link">
+<g class="nonterminal">
+<rect x="287" y="23" height="22" width="188"/>
+<text x="381" y="39">
+decimal_digit_string</text>
+</g>
+</a>
+<path d=" M 127 34 h 10"/>
+<path d=" M 277 34 h 10"/>
+</g>
+<path d=" M 485 34 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 34 h 10"/>
+<path d=" M 475 34 h 10"/>
+</g>
+</g>
+</g>
+<g id="rule-_datatype" transform="translate(0, 3263)">
+<text x="10" y="18" style="font:bold 14px monospace;text-anchor:start">_datatype</text>
+<g transform="translate(0, 24)">
+<g class="sequence">
+<path d=" M 10 21 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="choice">
+<path d=" M 35 21 h 24 m 116 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0"/>
+<a xlink:href="#rule-bit_datatype" class="link">
+<g class="nonterminal">
+<rect x="59" y="10" height="22" width="116"/>
+<text x="117" y="26">
+bit_datatype</text>
+</g>
+</a>
+<path d=" M 35 21 a 12 12 0 0 1 12 12 v 9 m 172 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 42 v 0 a 12 12 0 0 0 12 12 m 148 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a xlink:href="#rule-integer_datatype" class="link">
+<g class="nonterminal">
+<rect x="59" y="43" height="22" width="148"/>
+<text x="133" y="59">
+integer_datatype</text>
+</g>
+</a>
+</g>
+<g class="terminal">
+<rect x="241" y="10" height="22" width="44" rx="10" ry="10"/>
+<text x="263" y="26">
+&#x27;#&#x27;</text>
+</g>
+<path d=" M 231 21 h 10"/>
+</g>
+<path d=" M 295 21 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 21 h 10"/>
+<path d=" M 285 21 h 10"/>
+</g>
+</g>
+</g>
+</svg>
