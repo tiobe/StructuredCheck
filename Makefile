@@ -40,3 +40,4 @@ test-update: grammar ## Run the tests, update their expected trees, and copy the
 
 clean: ## Remove generated build artifacts
 	rm -rf build
+	find . -name '*~' -delete
