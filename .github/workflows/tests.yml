@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      TS_BNF_TOOL_VERSION: 0.4.0
+      TREE_SITTER_VERSION: 0.26.11
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # ts-bnf-tool has no prebuilt binaries, so both tools are built with
+      # cargo once and cached; the key pins the exact versions, so bumping
+      # the env vars above invalidates the cache and rebuilds.
+      - name: Cache cargo-installed tools
+        id: cache-tools
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.cargo/bin/ts-bnf-tool
+            ~/.cargo/bin/tree-sitter
+          key: cargo-tools-${{ runner.os }}-ts-bnf-tool-${{ env.TS_BNF_TOOL_VERSION }}-tree-sitter-${{ env.TREE_SITTER_VERSION }}
+
+      - name: Install ts-bnf-tool and tree-sitter CLI
+        if: steps.cache-tools.outputs.cache-hit != 'true'
+        run: cargo install --locked ts-bnf-tool@${TS_BNF_TOOL_VERSION} tree-sitter-cli@${TREE_SITTER_VERSION}
+
+      - name: Static grammar checks
+        run: make check
+
+      - name: Corpus tests
+        run: make test
